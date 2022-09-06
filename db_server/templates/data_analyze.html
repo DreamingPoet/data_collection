@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!-- 网站主语言 -->
+<html lang="zh-cn">
+  <head>
+    <!-- 网站采用的字符编码 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 网站标题 -->
+    <title>数据分析</title>
+    {% load static %}
+
+    <!-- 引入bootstrap的css文件 -->
+    <link rel="stylesheet" href="{% static 'js/lib/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <style>
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="{% static '/css/app.min.css' %}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-content">
+            <h4>VR互动教学实训数据分析</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-title">
+              <h4>教师数据统计</h4>
+            </div>
+
+            <div class="card-content">
+              <div class="row">
+                <div class="col-3">
+                  <p>教师总数：<span>{{teacher_statistics.num}}</span><span>人</span></p>
+                  <p>登陆次数：<span>{{teacher_statistics.login_times}}</span><span>次</span></p>
+                  <p>使用时长：<span>{{teacher_statistics.duration}}</span><span>小时</span></p>
+                </div>
+
+                <div class="col-9">
+                  <div class="chart teacher-data" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <div><a class="" href="/db_server/data_analyze/teracher_data?start={{start}}&end={{end}}" style="float: right">点击查看更多信息 >></a></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <h4>课件数据统计</h4>
+            </div>
+            <div class="card-content">
+              <div class="row">
+                <div class="col-3">
+                  <p>课件总数：<span>{{course_statistics.num}}</span><span>个</span></p>
+                  <p>总使用次数：<span>{{course_statistics.use_times}}</span><span>次</span></p>
+                  <p>总使用时长：<span>{{course_statistics.duration}}<span></span>小时</span></p>
+                </div>
+
+                <div class="col-9">
+                  <div class="chart course-data" style="width: 100%"></div>
+                </div>
+              </div>
+              <div><a class="" href="/db_server/data_analyze/course_data?start={{start}}&end={{end}}" style="float: right">点击查看更多信息 >></a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card">
+            <h3><a class="" href="/db_server/data_analyze/train_history?type=0&page=1" >实训统计 >></a></h3>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <h4>班级及学生数据统计</h4>
+            </div>
+            <div class="card-content">
+              <div class="">
+                <div class="row">
+                  <div class="col-3">
+                    <p>班级总数：<span>{{klass_student_statistics.klassNum}}</span><span>个</span></p>
+                    <p>学员总数：<span>{{klass_student_statistics.stu_num}}</span><span>人</span></p>
+                    <p>学员平均等级：<span>{{klass_student_statistics.level_avg}}</span></p>
+                    <p>学员平均经验值：<span>{{klass_student_statistics.exp_avg}}</span></p>
+                    <p>登陆次数：<span>{{klass_student_statistics.login_times}}次</span></p>
+                    <p>使用时长：<span>{{klass_student_statistics.klass_user_duration}}小时</span></p>
+                  </div>
+
+                  <div class="col-9">
+                    <div class="chart klass-student" style="width: 100%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="" style="padding-top: 5rem">
+                <div class="row">
+                  <div class="col-3">
+
+                  {% for i in klass_student_statistics.klass_course %}
+
+                    <p> {{i.name}}：<span>{{i.course__count}} </span><span>个</span></p>
+
+                  {% endfor %}
+
+
+
+
+                  </div>
+
+                  <div class="col-9">
+                    <div class="chart klass-course" style="width: 100%"></div>
+                  </div>
+                </div>
+              </div>
+              <div><a class="" href="/db_server/data_analyze/klass_student_data?start={{start}}&end={{end}}" style="float: right">点击查看更多信息 >></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <script src="{% static 'js/lib/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'js/lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script>
+
+    </script>
+    <script>
+      // 教师男女占比=========================================================
+      (function () {
+        // 基于准备好的dom，初始化echarts实例
+        var chartBox = $(".chart.teacher-data");
+        var myChart = echarts.init(document.querySelector(".chart.teacher-data"));
+
+        // 指定图表的配置项和数据
+        var option;
+
+        option = {
+          title: {
+            text: "男女占比",
+          },
+          tooltip: {
+            trigger: "item",
+          },
+          legend: {
+            top: "5%",
+            left: "center",
+          },
+          series: [
+            {
+              name: "男女占比",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 5,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: "40",
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+                { value: {{teacher_statistics.male}}, name: "男" },
+                { value: {{teacher_statistics.female}}, name: "女" },
+              ],
+            },
+          ],
+        };
+
+        option && myChart.setOption(option);
+        // 使用刚指定的配置项和数据显示图表。
+
+        $(document).ready(function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+
+        window.addEventListener("resize", function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+      })();
+
+       // 课件各个类型占比=========================================================
+      (function () {
+        // 基于准备好的dom，初始化echarts实例
+        var chartBox = $(".course-data.chart");
+        var myChart = echarts.init(document.querySelector(".course-data.chart"));
+
+        // 指定图表的配置项和数据
+        var option;
+
+        option = {
+          title: {
+            text: "各类型占比",
+          },
+          tooltip: {
+            trigger: "item",
+          },
+          legend: {
+              top:"10%",
+              orient: 'vertical',
+              left: 'left',
+          },
+          series: [
+            {
+              name: "各类型占比",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 5,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: "40",
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+
+                {% for key, value in course_statistics.classification.items %}
+                  { value: {{ value }}, name: "{{ key }}" },
+                {% endfor %}
+
+              ],
+            },
+          ],
+        };
+
+        option && myChart.setOption(option);
+
+        $(document).ready(function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+
+        window.addEventListener("resize", function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+      })();
+
+    // 班级学生男女占比=========================================================
+
+      (function () {
+        // 基于准备好的dom，初始化echarts实例
+        var chartBox = $(".chart.klass-student");
+        var myChart = echarts.init(document.querySelector(".chart.klass-student"));
+
+        // 指定图表的配置项和数据
+        var option;
+
+
+        option = {
+          title: {
+            text: "男女占比",
+          },
+          tooltip: {
+            trigger: "item",
+          },
+          legend: {
+            top: "5%",
+            left: "center",
+          },
+          series: [
+            {
+              name: "男女占比",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 5,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: "40",
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+                { value: {{klass_student_statistics.male}}, name: "男" },
+                { value: {{klass_student_statistics.female}}, name: "女" },
+              ],
+            },
+          ],
+        };
+
+        option && myChart.setOption(option);
+
+        $(document).ready(function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+
+        window.addEventListener("resize", function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+      })();
+
+      // 班级课件数量=========================================================
+ 
+      (function () {
+        // 基于准备好的dom，初始化echarts实例
+        var chartBox = $(".chart.klass-course");
+        var myChart = echarts.init(document.querySelector(".chart.klass-course"));
+
+        // 指定图表的配置项和数据
+        var option;
+
+
+        option = {
+          title: {
+            text: "班级课件数量",
+          },
+          tooltip: {
+            trigger: "item",
+          },
+          legend: {
+              top:"10%",
+              orient: 'vertical',
+              left: 'left',
+          },
+          series: [
+            {
+              name: "班级课件数量",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 5,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: "40",
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+
+                {% for i in klass_student_statistics.klass_course %}
+
+                { value: {{i.course__count}}, name: "{{i.name}}" },
+
+                {% endfor %}
+
+              ],
+            },
+          ],
+        };
+
+
+        option && myChart.setOption(option);
+
+        $(document).ready(function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+
+        window.addEventListener("resize", function () {
+          chartBox.height(chartBox.width() * 0.617);
+          myChart.resize();
+        });
+      })();
+    </script>
+  </body>
+</html>

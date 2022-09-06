@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <title>数据录入</title>
+
+        {% load static %}
+        <!-- 引入bootstrap的css文件 -->
+        <link rel="stylesheet" href="{% static 'js/lib/bootstrap/css/bootstrap.min.css' %}" />
+
+        <!-- 引入vuejs -->
+
+        <script type="text/javascript" src="{% static 'js/vue-2.7.0.min.js' %}"></script>
+
+        <!--
+    <script
+      type="text/javascript"
+      src="{% static 'js/axios-0.18.0.min.js' %}"
+    ></script>
+    -->
+        <!-- Custom styles for this template -->
+        <link href="{% static '/css/app.min.css' %}" rel="stylesheet" />
+
+        <style>
+            html,
+            body {
+                height: 100%;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background-color: #f5f5f5;
+            }
+
+            .form-signin {
+                width: 100%;
+                max-width: 600px;
+                padding: 15px;
+                margin: auto;
+            }
+            .img-view {
+                max-height: 200px;
+            }
+        </style>
+
+        <!-- Custom styles for this template -->
+    </head>
+    <body>
+        <main class="form-signin" id="app">
+            
+            <form>
+                <div class="text-center">
+                    <h3 class="mb-3 fw-normal">污水排入许可申请(企业)</h3>
+                    <a class="" href="/db_server/data_input">切换个人申请 >></a>
+                </div>
+                <div class="form-group">
+                    <label for="data1">1.排水户名称</label>
+                    <input type="text" class="form-control" id="data1" />
+                </div>
+                <div class="form-group">
+                    <label for="username">2.排水项目名称</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">3.填表日期</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">4.邮编/法定代表人</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">5.法定代表人手机</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">6.排水（建设）项目行政区和地址</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">7.总水</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">8.自来</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">9.自备</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">10.总排</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">11.含餐饮</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">12.其中生活污水量</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">13.处理工艺</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">14.用地面积</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">15.总建筑面积</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">16.住宅</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">17.厂房</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">18.办公楼</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">19.餐饮</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">20.主要产品或服务</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">21.主要原料</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">22.建设工期</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">23.竣工日期</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="username">24.序号1</label>
+                    <input type="text" class="form-control" placeholder="种类1" />
+                    <input type="text" class="form-control" placeholder="管径1" />
+                    <input type="text" class="form-control" placeholder="排水量1" />
+                    <input type="text" class="form-control" placeholder="路名、河道名1" />
+                    <input type="text" class="form-control" placeholder="有无1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">25.序号2</label>
+                    <input type="text" class="form-control" placeholder="种类2" />
+                    <input type="text" class="form-control" placeholder="管径2" />
+                    <input type="text" class="form-control" placeholder="排水量2" />
+                    <input type="text" class="form-control" placeholder="路名、河道名2" />
+                    <input type="text" class="form-control" placeholder="有无2" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">26.序号3</label>
+                    <input type="text" class="form-control" placeholder="种类3" />
+                    <input type="text" class="form-control" placeholder="管径3" />
+                    <input type="text" class="form-control" placeholder="排水量3" />
+                    <input type="text" class="form-control" placeholder="路名、河道名3" />
+                    <input type="text" class="form-control" placeholder="有无3" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">27.序号4</label>
+                    <input type="text" class="form-control" placeholder="种类4" />
+                    <input type="text" class="form-control" placeholder="管径4" />
+                    <input type="text" class="form-control" placeholder="排水量4" />
+                    <input type="text" class="form-control" placeholder="路名、河道名4" />
+                    <input type="text" class="form-control" placeholder="有无4" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">28.序号5</label>
+                    <input type="text" class="form-control" placeholder="种类5" />
+                    <input type="text" class="form-control" placeholder="管径5" />
+                    <input type="text" class="form-control" placeholder="排水量5" />
+                    <input type="text" class="form-control" placeholder="路名、河道名5" />
+                    <input type="text" class="form-control" placeholder="有无5" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">29.序号6</label>
+                    <input type="text" class="form-control" placeholder="种类6" />
+                    <input type="text" class="form-control" placeholder="管径6" />
+                    <input type="text" class="form-control" placeholder="排水量6" />
+                    <input type="text" class="form-control" placeholder="路名、河道名6" />
+                    <input type="text" class="form-control" placeholder="有无6" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">30.序号7</label>
+                    <input type="text" class="form-control" placeholder="种类7" />
+                    <input type="text" class="form-control" placeholder="管径7" />
+                    <input type="text" class="form-control" placeholder="排水量7" />
+                    <input type="text" class="form-control" placeholder="路名、河道名7" />
+                    <input type="text" class="form-control" placeholder="有无7" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">31.序号8</label>
+                    <input type="text" class="form-control" placeholder="种类8" />
+                    <input type="text" class="form-control" placeholder="管径8" />
+                    <input type="text" class="form-control" placeholder="排水量8" />
+                    <input type="text" class="form-control" placeholder="路名、河道名8" />
+                    <input type="text" class="form-control" placeholder="有无8" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">32.建筑层数（报告）</label>
+                    <input type="text" class="form-control" id="username" />
+                </div>
+
+                <div class="form-group">
+                    <label>33.勾选排水设施</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                    <label class="form-check-label" for="defaultCheck1"> 1.有餐饮的排水户已建设规范的隔油池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+                    <label class="form-check-label" for="defaultCheck2"> 2.有厕所的排水户已建设规范的化粪池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" />
+                    <label class="form-check-label" for="defaultCheck3"> 3.有洗车服务的排水户已建设规范的隔油沉淀池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" />
+                    <label class="form-check-label" for="defaultCheck4"> 4.已按规定建设____________的预处理设施。 </label>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>34.现场照片</label>
+                </div>
+
+                <div v-for="(item, index) in pics">
+                    <br />
+                    <img class="img-view" :src="item.pic" />
+                    <div class="input-group">
+                        <input type="file" class="" @change="((val)=>{upload(val, index)})" required />
+                    </div>
+                    <div class="input-group">
+                        <input type="text" v-model="item.description" class="form-control" placeholder="图片说明" />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" @click="rmpic(index)">删除</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="input-group">
+                    <button class="btn btn-outline-success" type="button" @click="addpic()">新增</button>
+                </div>
+
+                <br />
+                <button type="submit" class="btn btn-primary float-right">提交</button>
+            </form>
+        </main>
+
+        <script>
+            new Vue({
+                delimiters: ["{[", "]}"],
+                el: "#app",
+                data: {
+                    message: "Hello Vue.js!",
+                    pics: [],
+                },
+                methods: {
+                    addpic: function (message) {
+                        var pic_data = {
+                            pic: "",
+                            description: "",
+                        };
+                        this.pics.push(pic_data);
+                    },
+                    rmpic: function (index) {
+                        console.log(index);
+                        this.pics.splice(Number(index), 1);
+                    },
+                    upload(e, index) {
+                        console.log(index);
+                        // e.target指向事件执行时鼠标所点击区域的那个元素
+                        // console.log(e.target.files)
+                        //------------------------------------------------------
+                        for (let item of e.target.files) {
+                            if (!/image\/\w+/.test(item.type)) {
+                                alert("只能选择图片");
+                                return;
+                            }
+                            var _this = this;
+                            let reader = new FileReader();
+                            // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
+                            reader.readAsDataURL(item);
+                            reader.addEventListener("load", function () {
+                                _this.pics[Number(index)].pic = this.result;
+                            });
+                        }
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>

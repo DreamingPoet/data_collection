@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <title>数据录入</title>
+
+        {% load static %}
+        <!-- 引入bootstrap的css文件 -->
+        <link rel="stylesheet" href="{% static 'js/lib/bootstrap/css/bootstrap.min.css' %}" />
+
+        <!-- 引入vuejs -->
+
+        <script type="text/javascript" src="{% static 'js/vue-2.7.0.min.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js' %}"></script>
+
+        <!-- Custom styles for this template -->
+        <link href="{% static '/css/app.min.css' %}" rel="stylesheet" />
+
+        <style>
+            html,
+            body {
+                height: 100%;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background-color: #f5f5f5;
+            }
+
+            .form-signin {
+                width: 100%;
+                max-width: 600px;
+                padding: 15px;
+                margin: auto;
+            }
+            .img-view {
+                max-height: 200px;
+            }
+        </style>
+
+        <!-- Custom styles for this template -->
+    </head>
+    <body>
+        <main class="form-signin" id="app">
+            <form @submit.prevent>
+                <div class="text-center">
+                    <h3 class="mb-3 fw-normal">污水排入许可申请(个人)</h3>
+                    <a class="" href="/db_server/data_input_com">切换企业申请 >></a>
+                </div>
+                <div class="form-group">
+                    <label for="applyer">1.排水户名称</label>
+                    <input type="text" class="form-control" v-model="form_data.applyer" id="applyer" />
+                </div>
+                <div class="form-group">
+                    <label for="project">2.排水项目名称</label>
+                    <input type="text" class="form-control" v-model="form_data.project" id="project" />
+                </div>
+                <div class="form-group">
+                    <label for="date">3.填表日期</label>
+                    <input type="text" class="form-control" v-model="form_data.date" id="date" />
+                </div>
+                <div class="form-group">
+                    <label for="post_legal_representative">4.邮编/法定代表人</label>
+                    <input type="text" class="form-control" v-model="form_data.post_legal_representative" id="post_legal_representative" />
+                </div>
+                <div class="form-group">
+                    <label for="cell_phone">5.法定代表人手机</label>
+                    <input type="text" class="form-control" v-model="form_data.cell_phone" id="cell_phone" />
+                </div>
+                <div class="form-group">
+                    <label for="project_addr">6.排水（建设）项目行政区和地址</label>
+                    <input type="text" class="form-control" v-model="form_data.project_addr" id="project_addr" />
+                </div>
+                <div class="form-group">
+                    <label for="zongshui">7.总水</label>
+                    <input type="text" class="form-control" v-model="form_data.zongshui" id="zongshui" />
+                </div>
+                <div class="form-group">
+                    <label for="tap_water">8.自来</label>
+                    <input type="text" class="form-control" v-model="form_data.tap_water" id="tap_water" />
+                </div>
+                <div class="form-group">
+                    <label for="self_owned">9.自备</label>
+                    <input type="text" class="form-control" v-model="form_data.self_owned" id="self_owned" />
+                </div>
+                <div class="form-group">
+                    <label for="total_water">10.总排</label>
+                    <input type="text" class="form-control" v-model="form_data.total_water" id="total_water" />
+                </div>
+                <div class="form-group">
+                    <label for="total_catering">11.含餐饮</label>
+                    <input type="text" class="form-control" v-model="form_data.total_catering" id="total_catering" />
+                </div>
+                <div class="form-group">
+                    <label for="domastic_wastewater">12.其中生活污水量</label>
+                    <input type="text" class="form-control" v-model="form_data.domastic_wastewater" id="domastic_wastewater" />
+                </div>
+                <div class="form-group">
+                    <label>13.处理方式：</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="customRadioInline" class="custom-control-input" value="self" v-model="form_data.process_method" />
+                        <label class="custom-control-label" for="customRadioInline1">自行处理</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input" value="delegation"  v-model="form_data.process_method" />
+                        <label class="custom-control-label" for="customRadioInline2">委托处理</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>14.处理量：</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline3" name="customRadioInline2" class="custom-control-input" value="part" v-model="form_data.process_ammount" />
+                        <label class="custom-control-label" for="customRadioInline3">部分</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline4" name="customRadioInline2" class="custom-control-input" value="all" v-model="form_data.process_ammount" />
+                        <label class="custom-control-label" for="customRadioInline4">全部</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="process_technology">15.处理工艺</label>
+                    <input type="text" class="form-control" v-model="form_data.process_technology" id="process_technology" />
+                </div>
+                <div class="form-group">
+                    <label for="site_area">16.用地面积</label>
+                    <input type="text" class="form-control" v-model="form_data.site_area" id="site_area" />
+                </div>
+                <div class="form-group">
+                    <label for="overall_floorage">17.总建筑面积</label>
+                    <input type="text" class="form-control" v-model="form_data.overall_floorage" id="overall_floorage" />
+                </div>
+
+                <div class="form-group">
+                    <label for="residence_area">18.住宅</label>
+                    <input type="text" class="form-control" v-model="form_data.residence_area" id="residence_area" />
+                </div>
+                <div class="form-group">
+                    <label for="factory_area">19.厂房</label>
+                    <input type="text" class="form-control" v-model="form_data.factory_area" id="factory_area" />
+                </div>
+                <div class="form-group">
+                    <label for="office_building_area">20.办公楼</label>
+                    <input type="text" class="form-control" v-model="form_data.office_building_area" id="office_building_area" />
+                </div>
+                <div class="form-group">
+                    <label for="catering_area">21.餐饮</label>
+                    <input type="text" class="form-control" v-model="form_data.catering_area" id="catering_area" />
+                </div>
+                <div class="form-group">
+                    <label for="main_product">22.主要产品或服务</label>
+                    <input type="text" class="form-control" v-model="form_data.main_product" id="main_product" />
+                </div>
+                <div class="form-group">
+                    <label for="raw_material">23.主要原料</label>
+                    <input type="text" class="form-control" v-model="form_data.raw_material" id="raw_material" />
+                </div>
+                <div class="form-group">
+                    <label for="construction_period">24.建设工期</label>
+                    <input type="text" class="form-control" v-model="form_data.construction_period" id="construction_period" />
+                </div>
+                <div class="form-group">
+                    <label for="completion_date">25.竣工日期</label>
+                    <input type="text" class="form-control" v-model="form_data.completion_date" id="completion_date" />
+                </div>
+                <div class="form-group">
+                    <label>26.序号1</label>
+                    <input type="text" class="form-control" placeholder="种类1" v-model="form_data.type_1" />
+                    <input type="text" class="form-control" placeholder="管径1" v-model="form_data.pipe_diameter_1" />
+                    <input type="text" class="form-control" placeholder="排水量1" v-model="form_data.quantity_of_flow_1" />
+                    <input type="text" class="form-control" placeholder="路名、河道名1" v-model="form_data.river_way_1" />
+                    <input type="text" class="form-control" placeholder="有无1" v-model="form_data.have_or_not_1" />
+                </div>
+
+                <div class="form-group">
+                    <label>27.序号2</label>
+                    <input type="text" class="form-control" placeholder="种类2" v-model="form_data.type_2" />
+                    <input type="text" class="form-control" placeholder="管径2" v-model="form_data.pipe_diameter_2" />
+                    <input type="text" class="form-control" placeholder="排水量2" v-model="form_data.quantity_of_flow_2" />
+                    <input type="text" class="form-control" placeholder="路名、河道名2" v-model="form_data.river_way_2" />
+                    <input type="text" class="form-control" placeholder="有无2" v-model="form_data.have_or_not_2" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">28.序号3</label>
+                    <input type="text" class="form-control" placeholder="种类3" v-model="form_data.type_3" />
+                    <input type="text" class="form-control" placeholder="管径3" v-model="form_data.pipe_diameter_3" />
+                    <input type="text" class="form-control" placeholder="排水量3" v-model="form_data.quantity_of_flow_3" />
+                    <input type="text" class="form-control" placeholder="路名、河道名3" v-model="form_data.river_way_3" />
+                    <input type="text" class="form-control" placeholder="有无3" v-model="form_data.have_or_not_3" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">29.序号4</label>
+                    <input type="text" class="form-control" placeholder="种类4" v-model="form_data.type_4" />
+                    <input type="text" class="form-control" placeholder="管径4" v-model="form_data.pipe_diameter_4" />
+                    <input type="text" class="form-control" placeholder="排水量4" v-model="form_data.quantity_of_flow_4" />
+                    <input type="text" class="form-control" placeholder="路名、河道名4" v-model="form_data.river_way_4" />
+                    <input type="text" class="form-control" placeholder="有无4" v-model="form_data.have_or_not_4" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">30.序号5</label>
+                    <input type="text" class="form-control" placeholder="种类5" v-model="form_data.type_5" />
+                    <input type="text" class="form-control" placeholder="管径5" v-model="form_data.pipe_diameter_5" />
+                    <input type="text" class="form-control" placeholder="排水量5" v-model="form_data.quantity_of_flow_5" />
+                    <input type="text" class="form-control" placeholder="路名、河道名5" v-model="form_data.river_way_5" />
+                    <input type="text" class="form-control" placeholder="有无5" v-model="form_data.have_or_not_5" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">31.序号6</label>
+                    <input type="text" class="form-control" placeholder="种类6" v-model="form_data.type_6" />
+                    <input type="text" class="form-control" placeholder="管径6" v-model="form_data.pipe_diameter_6" />
+                    <input type="text" class="form-control" placeholder="排水量6" v-model="form_data.quantity_of_flow_6" />
+                    <input type="text" class="form-control" placeholder="路名、河道名6" v-model="form_data.river_way_6" />
+                    <input type="text" class="form-control" placeholder="有无6" v-model="form_data.have_or_not_6" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">32.序号7</label>
+                    <input type="text" class="form-control" placeholder="种类7" v-model="form_data.type_7" />
+                    <input type="text" class="form-control" placeholder="管径7" v-model="form_data.pipe_diameter_7" />
+                    <input type="text" class="form-control" placeholder="排水量7" v-model="form_data.quantity_of_flow_7" />
+                    <input type="text" class="form-control" placeholder="路名、河道名7" v-model="form_data.river_way_7" />
+                    <input type="text" class="form-control" placeholder="有无7" v-model="form_data.have_or_not_7" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">33.序号8</label>
+                    <input type="text" class="form-control" placeholder="种类8" v-model="form_data.type_8" />
+                    <input type="text" class="form-control" placeholder="管径8" v-model="form_data.pipe_diameter_8" />
+                    <input type="text" class="form-control" placeholder="排水量8" v-model="form_data.quantity_of_flow_8" />
+                    <input type="text" class="form-control" placeholder="路名、河道名8" v-model="form_data.river_way_8" />
+                    <input type="text" class="form-control" placeholder="有无8" v-model="form_data.have_or_not_8" />
+                </div>
+
+                <div class="form-group">
+                    <label for="levels">34.建筑层数（报告）</label>
+                    <input type="text" class="form-control" id="levels" v-model="form_data.levels" />
+                </div>
+
+                <div class="form-group">
+                    <label>35.勾选排水设施</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="drainage1" id="defaultCheck1" v-model="form_data.drainage" />
+                    <label class="form-check-label" for="defaultCheck1"> 1.有餐饮的排水户已建设规范的隔油池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="drainage2" id="defaultCheck2" v-model="form_data.drainage" />
+                    <label class="form-check-label" for="defaultCheck2"> 2.有厕所的排水户已建设规范的化粪池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="drainage3" id="defaultCheck3" v-model="form_data.drainage" />
+                    <label class="form-check-label" for="defaultCheck3"> 3.有洗车服务的排水户已建设规范的隔油沉淀池。 </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="drainage4" id="defaultCheck4" v-model="form_data.drainage" />
+                    <label class="form-check-label" for="defaultCheck4"> 4.已按规定建设____________的预处理设施。 </label>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>36.现场照片</label>
+                </div>
+
+                <div v-for="(item, index) in form_data.pics">
+                    <br />
+                    <img class="img-view" :src="item.pic" />
+                    <div class="input-group">
+                        <input type="file" class="" @change="((val)=>{upload(val, index)})" required />
+                    </div>
+                    <div class="input-group">
+                        <input type="text" v-model="item.description" class="form-control" placeholder="图片说明" />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" @click="rmpic(index)">删除</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="input-group">
+                    <button class="btn btn-outline-success" type="button" @click="addpic()">新增</button>
+                </div>
+
+                <br />
+                <button type="button" @click="submitPost" class="btn btn-primary float-right">提交</button>
+            </form>
+        </main>
+
+        <script>
+            new Vue({
+                delimiters: ["{[", "]}"],
+                el: "#app",
+                data: {
+                    message: "Hello Vue.js!",
+
+                    form_data: {
+                        pics: [],
+                        applyer: "",
+                        project: "",
+                        date: "",
+                        post_legal_representative: "",
+                        cell_phone: "",
+                        project_addr: "",
+                        zongshui: "",
+                        tap_water: "",
+                        self_owned: "",
+                        total_water: "",
+                        total_catering: "",
+                        domastic_wastewater: "",
+                        process_method: "",
+                        process_ammount: "",
+                        process_technology: "",
+                        site_area: "",
+                        overall_floorage: "",
+                        residence_area: "",
+                        factory_area: "",
+                        office_building_area: "",
+                        catering_area: "",
+                        main_product: "",
+                        raw_material: "",
+                        construction_period: "",
+                        completion_date: "",
+
+                        type_1: "",
+                        pipe_diameter_1: "",
+                        quantity_of_flow_1: "",
+                        river_way_1: "",
+                        have_or_not_1: "",
+
+                        type_2: "",
+                        pipe_diameter_2: "",
+                        quantity_of_flow_2: "",
+                        river_way_2: "",
+                        have_or_not_2: "",
+
+                        type_3: "",
+                        pipe_diameter_3: "",
+                        quantity_of_flow_3: "",
+                        river_way_3: "",
+                        have_or_not_3: "",
+
+                        type_4: "",
+                        pipe_diameter_4: "",
+                        quantity_of_flow_4: "",
+                        river_way_4: "",
+                        have_or_not_4: "",
+
+                        type_5: "",
+                        pipe_diameter_5: "",
+                        quantity_of_flow_5: "",
+                        river_way_5: "",
+                        have_or_not_5: "",
+
+                        type_6: "",
+                        pipe_diameter_6: "",
+                        quantity_of_flow_6: "",
+                        river_way_6: "",
+                        have_or_not_6: "",
+
+                        type_7: "",
+                        pipe_diameter_7: "",
+                        quantity_of_flow_7: "",
+                        river_way_7: "",
+                        have_or_not_7: "",
+
+                        type_8: "",
+                        pipe_diameter_8: "",
+                        quantity_of_flow_8: "",
+                        river_way_8: "",
+                        have_or_not_8: "",
+
+                        levels: "",
+                        drainage: [],
+                    },
+                },
+                methods: {
+                    addpic: function (message) {
+                        var pic_data = {
+                            pic: "",
+                            description: "",
+                        };
+                        this.form_data.pics.push(pic_data);
+                    },
+                    rmpic: function (index) {
+                        console.log(index);
+                        this.form_data.pics.splice(Number(index), 1);
+                    },
+                    upload(e, index) {
+                        console.log(index);
+                        // e.target指向事件执行时鼠标所点击区域的那个元素
+                        // console.log(e.target.files)
+                        //------------------------------------------------------
+                        for (let item of e.target.files) {
+                            if (!/image\/\w+/.test(item.type)) {
+                                alert("只能选择图片");
+                                return;
+                            }
+                            var _this = this;
+                            let reader = new FileReader();
+                            // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
+                            reader.readAsDataURL(item);
+                            reader.addEventListener("load", function () {
+                                _this.form_data.pics[Number(index)].pic = this.result;
+                            });
+                        }
+                    },
+                    submitPost(event) {
+                        console.log(this.form_data);
+
+                    },
+
+                },
+            });
+        </script>
+
+    </body>
+</html>
