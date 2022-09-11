@@ -491,22 +491,17 @@
                         formData.append('levels', this.form_data.levels);
                         formData.append('drainage', this.form_data.drainage);
                         
-                        let pics_description = [];
-                        console.log(this.form_data.pics)
+
                         for (let i of this.form_data.pics) {
                             
                             formData.append('file', i.raw_pic);
-
-                            pics_description.push(i.description)
-                            console.log(i.description)
+                            formData.append('pics_description', i.description);
                         }
-
-                        formData.append('pics_description', pics_description);
-                        
+                       
                         axios.post('/db_server/get_test_data', formData)
                           .then(function (response) {
                             console.log(response);
-                            // location.href = response.data.url;
+                            location.href = response.data.url;
                           })
                           .catch(function (error) {
                             console.log(error);

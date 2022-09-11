@@ -4,6 +4,8 @@ import datetime
 import json
 import os
 
+import io
+
 import math
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +22,13 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from mailmerge import MailMerge
+from docx import Document
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
+from docx.shared import Inches, Cm, Pt, RGBColor
+
+from PIL import Image
+
 
 def data_input(request): 
     if request.method == "GET":
@@ -38,33 +47,12 @@ def data_input_com(request):
 def get_test_data(request): 
     if request.method == 'POST':
         Response = {}
-        # json_result = json.loads(request.body)
-
         try:
             data = request.POST
-            file_dict = request.FILES.items()
-            for (k, v) in file_dict:
-
-                file_data = request.FILES.getlist(k)
-
-                for index, fl in enumerate(file_data):
-                    filename = fl._get_name()
-                    print(index)
-                    print(filename)
-                    path_file = BASE_DIR + '/db_server/merge_file/temp/'
-                    path_file += filename
-                    with open(path_file, "wb") as f:
-                        if fl.multiple_chunks():
-                            for content in fl.chuncks():
-                                f.write(content)
-                        else:
-                            data = fl.read()
-                            f.write(data)
-            
-
+            template_file_path = BASE_DIR + '/db_server/merge_file/template.docx'
 
             # 获取模版文件
-            document = MailMerge(BASE_DIR + '/db_server/merge_file/template.docx')
+            document = MailMerge(template_file_path)
 
             # 将获取的数据设置到模版的域中
             document.merge(
@@ -144,10 +132,74 @@ def get_test_data(request):
 
                 levels= data.get("levels")
                 )
-            
-            time_text = time.strftime("%Y%m%d%H%M%S", time.localtime())
+            pics_description = data.getlist("pics_description")
 
-            document.write(BASE_DIR + '/db_server/merge_file/temp/'+ time_text +'.docx')
+            time_text = time.strftime("%Y%m%d%H%M%S", time.localtime())
+            result_file_path = BASE_DIR + '/db_server/merge_file/temp/'+ time_text +'.docx'
+
+            document.write(result_file_path)
+
+            # 处理图片
+            doc = Document(result_file_path)
+            tables = doc.tables
+            pic_table = tables[3]
+
+
+            file_data = request.FILES.getlist('file')
+
+            for index, fl in enumerate(file_data):
+                filename = fl._get_name()
+                print(index)
+                print(filename)
+
+                # path = default_storage.save('tmp/temp.png', ContentFile(fl.read()))
+                # tmp_file = os.path.join(BASE_DIR + '/db_server/merge_file/temp/', path)
+                
+                # file_content = fl.read()
+                # f4 = io.BytesIO(fl)	#转化为_io.BytesIO类型
+                # f5 = io.BufferedReader(fl)	
+                # read_file = TextIOWrapper(my_file.file, encoding='ASCII')
+
+                # img = Image.open(io.BytesIO(fl.file))
+                # file = fl.get_file()
+                
+
+                # path_file = BASE_DIR + '/db_server/merge_file/temp/'
+                # path_file += filename
+                # with open(path_file, "wb") as f:
+                #     if fl.multiple_chunks():
+                #         for content in fl.chuncks():
+                #             f.write(content)
+                #     else:
+                #         data = fl.read()
+                #         f.write(data)
+
+                if index > 0:
+                    pic_table.add_row()
+                    pic_table.add_row()
+
+                cell = pic_table.cell(index * 2, 0)
+                cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+                cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                run = cell.paragraphs[0].add_run()
+                # img_path = BASE_DIR  + '/db_server/merge_file/temp/AlreadyOver.png'
+                picture = run.add_picture(fl)
+                picture.height = Cm(6)
+                picture.width = Cm(8)
+
+                cell = pic_table.cell(index * 2+ 1, 0)
+                cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+                cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+                run = cell.paragraphs[0].add_run()
+                if index < len(pics_description):
+                    text = run.add_text(pics_description[index])
+
+
+            doc.save(result_file_path)
+
+
+
 
         except Exception as e:
             err_message = str(e)
