@@ -10,6 +10,8 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pymysql==1.0.2
 
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple django-cors-headers==3.13.0
 
+pip install python-docx docx-mailmerge -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 查询端口使用情况
 lsof -i:8000
 

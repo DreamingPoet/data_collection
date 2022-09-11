@@ -14,7 +14,7 @@
 
         <script type="text/javascript" src="{% static 'js/vue-2.7.0.min.js' %}"></script>
 
-        <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/axios-0.27.0.min.js' %}"></script>
 
         <!-- Custom styles for this template -->
         <link href="{% static '/css/app.min.css' %}" rel="stylesheet" />
@@ -270,14 +270,14 @@
                     <label>36.现场照片</label>
                 </div>
 
-                <div v-for="(item, index) in form_data.pics">
+                <div v-for="(item, index) in pics">
                     <br />
                     <img class="img-view" :src="item.pic" />
                     <div class="input-group">
                         <input type="file" class="" @change="((val)=>{upload(val, index)})" required />
                     </div>
                     <div class="input-group">
-                        <input type="text" v-model="item.description" class="form-control" placeholder="图片说明" />
+                        <input type="text" v-model="item.description" @change="((val)=>{pic_desciption_changed(val, index)})" class="form-control" placeholder="图片说明" />
                         <div class="input-group-append">
                             <button class="btn btn-outline-danger" type="button" @click="rmpic(index)">删除</button>
                         </div>
@@ -299,9 +299,8 @@
                 el: "#app",
                 data: {
                     message: "Hello Vue.js!",
-
+                    pics: [],
                     form_data: {
-                        pics: [],
                         applyer: "",
                         project: "",
                         date: "",
@@ -386,11 +385,17 @@
                             pic: "",
                             description: "",
                         };
-                        this.form_data.pics.push(pic_data);
+                        var pic_data2 = {
+                            pic: "",
+                            description: "",
+                        };
+                        this.pics.push(pic_data);
+                        this.form_data.raw_pics.push(pic_data2);
                     },
                     rmpic: function (index) {
                         console.log(index);
-                        this.form_data.pics.splice(Number(index), 1);
+                        this.pics.splice(Number(index), 1);
+                        this.form_data.raw_pics.splice(Number(index), 1);
                     },
                     upload(e, index) {
                         console.log(index);
@@ -402,17 +407,112 @@
                                 alert("只能选择图片");
                                 return;
                             }
+                            this.form_data.raw_pics[Number(index)].pic = item;
+                            console.log(this.form_data.raw_pics[0].pic);
+
                             var _this = this;
                             let reader = new FileReader();
                             // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
                             reader.readAsDataURL(item);
                             reader.addEventListener("load", function () {
-                                _this.form_data.pics[Number(index)].pic = this.result;
+                                _this.pics[Number(index)].pic = this.result;
                             });
                         }
                     },
-                    submitPost(event) {
-                        console.log(this.form_data);
+                    pic_desciption_changed(e, index) {
+                        console.log(e.target.value);
+                        this.form_data.raw_pics[Number(index)].description = e.target.value;
+                    },
+                    submitPost() {
+                        let formData = new FormData();
+                        formData.append('applyer', this.form_data.applyer);
+                        formData.append('project', this.form_data.project);
+                        formData.append('date', this.form_data.date);
+                        formData.append('post_legal_representative', this.form_data.post_legal_representative);
+                        formData.append('cell_phone', this.form_data.cell_phone);
+                        formData.append('project_addr', this.form_data.project_addr);
+                        formData.append('zongshui', this.form_data.zongshui);
+                        formData.append('tap_water', this.form_data.tap_water);
+                        formData.append('self_owned', this.form_data.self_owned);
+                        formData.append('total_water', this.form_data.total_water);
+                        formData.append('total_catering', this.form_data.total_catering);
+                        formData.append('domastic_wastewater', this.form_data.domastic_wastewater);
+                        formData.append('process_method', this.form_data.process_method);
+                        formData.append('process_ammount', this.form_data.process_ammount);
+                        formData.append('process_technology', this.form_data.process_technology);
+                        formData.append('site_area', this.form_data.site_area);
+                        formData.append('overall_floorage', this.form_data.overall_floorage);
+                        formData.append('residence_area', this.form_data.residence_area);
+                        formData.append('factory_area', this.form_data.factory_area);
+                        formData.append('office_building_area', this.form_data.office_building_area);
+                        formData.append('catering_area', this.form_data.catering_area);
+                        formData.append('raw_material', this.form_data.raw_material);
+                        formData.append('construction_period', this.form_data.construction_period);
+                        formData.append('completion_date', this.form_data.completion_date);
+
+                        formData.append('type_1', this.form_data.type_1);
+                        formData.append('pipe_diameter_1', this.form_data.pipe_diameter_1);
+                        formData.append('quantity_of_flow_1', this.form_data.quantity_of_flow_1);
+                        formData.append('river_way_1', this.form_data.river_way_1);
+                        formData.append('have_or_not_1', this.form_data.have_or_not_1);
+
+                        formData.append('type_2', this.form_data.type_2);
+                        formData.append('pipe_diameter_2', this.form_data.pipe_diameter_2);
+                        formData.append('quantity_of_flow_2', this.form_data.quantity_of_flow_2);
+                        formData.append('river_way_2', this.form_data.river_way_2);
+                        formData.append('have_or_not_2', this.form_data.have_or_not_2);
+
+                        formData.append('type_3', this.form_data.type_3);
+                        formData.append('pipe_diameter_3', this.form_data.pipe_diameter_3);
+                        formData.append('quantity_of_flow_3', this.form_data.quantity_of_flow_3);
+                        formData.append('river_way_3', this.form_data.river_way_3);
+                        formData.append('have_or_not_3', this.form_data.have_or_not_3);
+
+                        formData.append('type_4', this.form_data.type_4);
+                        formData.append('pipe_diameter_4', this.form_data.pipe_diameter_4);
+                        formData.append('quantity_of_flow_4', this.form_data.quantity_of_flow_4);
+                        formData.append('river_way_4', this.form_data.river_way_4);
+                        formData.append('have_or_not_4', this.form_data.have_or_not_4);
+
+                        formData.append('type_5', this.form_data.type_5);
+                        formData.append('pipe_diameter_5', this.form_data.pipe_diameter_5);
+                        formData.append('quantity_of_flow_5', this.form_data.quantity_of_flow_5);
+                        formData.append('river_way_5', this.form_data.river_way_5);
+                        formData.append('have_or_not_5', this.form_data.have_or_not_5);
+
+                        formData.append('type_6', this.form_data.type_6);
+                        formData.append('pipe_diameter_6', this.form_data.pipe_diameter_6);
+                        formData.append('quantity_of_flow_6', this.form_data.quantity_of_flow_6);
+                        formData.append('river_way_6', this.form_data.river_way_6);
+                        formData.append('have_or_not_6', this.form_data.have_or_not_6);
+
+                        formData.append('type_7', this.form_data.type_7);
+                        formData.append('pipe_diameter_7', this.form_data.pipe_diameter_7);
+                        formData.append('quantity_of_flow_7', this.form_data.quantity_of_flow_7);
+                        formData.append('river_way_7', this.form_data.river_way_7);
+                        formData.append('have_or_not_7', this.form_data.have_or_not_7);
+
+                        formData.append('type_8', this.form_data.type_8);
+                        formData.append('pipe_diameter_8', this.form_data.pipe_diameter_8);
+                        formData.append('quantity_of_flow_8', this.form_data.quantity_of_flow_8);
+                        formData.append('river_way_8', this.form_data.river_way_8);
+                        formData.append('have_or_not_8', this.form_data.have_or_not_8);
+
+
+
+                        formData.append('levels', this.form_data.levels);
+                        formData.append('drainage', this.form_data.drainage);
+ 
+
+                        
+                        axios.post('/db_server/get_test_data', formData)
+                          .then(function (response) {
+                            console.log(response);
+                            // location.href = response.data.url;
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          });
 
                     },
 
