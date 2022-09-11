@@ -38,13 +38,30 @@ def data_input_com(request):
 def get_test_data(request): 
     if request.method == 'POST':
         Response = {}
-        json_result = json.loads(request.body)
+        # json_result = json.loads(request.body)
 
         try:
-            data = json_result.get("data")
+            data = request.POST
+            file_dict = request.FILES.items()
+            for (k, v) in file_dict:
 
-            raw_pics = data.get('raw_pics')
-            print(raw_pics)
+                file_data = request.FILES.getlist(k)
+
+                for index, fl in enumerate(file_data):
+                    filename = fl._get_name()
+                    print(index)
+                    print(filename)
+                    path_file = BASE_DIR + '/db_server/merge_file/temp/'
+                    path_file += filename
+                    with open(path_file, "wb") as f:
+                        if fl.multiple_chunks():
+                            for content in fl.chuncks():
+                                f.write(content)
+                        else:
+                            data = fl.read()
+                            f.write(data)
+            
+
 
             # 获取模版文件
             document = MailMerge(BASE_DIR + '/db_server/merge_file/template.docx')

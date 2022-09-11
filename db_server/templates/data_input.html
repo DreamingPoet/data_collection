@@ -270,14 +270,14 @@
                     <label>36.现场照片</label>
                 </div>
 
-                <div v-for="(item, index) in pics">
+                <div v-for="(item, index) in form_data.pics">
                     <br />
                     <img class="img-view" :src="item.pic" />
                     <div class="input-group">
                         <input type="file" class="" @change="((val)=>{upload(val, index)})" required />
                     </div>
                     <div class="input-group">
-                        <input type="text" v-model="item.description" @change="((val)=>{pic_desciption_changed(val, index)})" class="form-control" placeholder="图片说明" />
+                        <input type="text" v-model="item.description" class="form-control" placeholder="图片说明" />
                         <div class="input-group-append">
                             <button class="btn btn-outline-danger" type="button" @click="rmpic(index)">删除</button>
                         </div>
@@ -298,9 +298,8 @@
                 delimiters: ["{[", "]}"],
                 el: "#app",
                 data: {
-                    message: "Hello Vue.js!",
-                    pics: [],
                     form_data: {
+                        pics: [],
                         applyer: "",
                         project: "",
                         date: "",
@@ -384,18 +383,13 @@
                         var pic_data = {
                             pic: "",
                             description: "",
+                            raw_pic:""
                         };
-                        var pic_data2 = {
-                            pic: "",
-                            description: "",
-                        };
-                        this.pics.push(pic_data);
-                        this.form_data.raw_pics.push(pic_data2);
+                        this.form_data.pics.push(pic_data);
                     },
                     rmpic: function (index) {
                         console.log(index);
-                        this.pics.splice(Number(index), 1);
-                        this.form_data.raw_pics.splice(Number(index), 1);
+                        this.form_data.pics.splice(Number(index), 1);
                     },
                     upload(e, index) {
                         console.log(index);
@@ -407,21 +401,15 @@
                                 alert("只能选择图片");
                                 return;
                             }
-                            this.form_data.raw_pics[Number(index)].pic = item;
-                            console.log(this.form_data.raw_pics[0].pic);
-
+                            this.form_data.pics[Number(index)].raw_pic = item;
                             var _this = this;
                             let reader = new FileReader();
                             // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
                             reader.readAsDataURL(item);
                             reader.addEventListener("load", function () {
-                                _this.pics[Number(index)].pic = this.result;
+                                _this.form_data.pics[Number(index)].pic = this.result;
                             });
                         }
-                    },
-                    pic_desciption_changed(e, index) {
-                        console.log(e.target.value);
-                        this.form_data.raw_pics[Number(index)].description = e.target.value;
                     },
                     submitPost() {
                         let formData = new FormData();
@@ -502,8 +490,18 @@
 
                         formData.append('levels', this.form_data.levels);
                         formData.append('drainage', this.form_data.drainage);
- 
+                        
+                        let pics_description = [];
+                        console.log(this.form_data.pics)
+                        for (let i of this.form_data.pics) {
+                            
+                            formData.append('file', i.raw_pic);
 
+                            pics_description.push(i.description)
+                            console.log(i.description)
+                        }
+
+                        formData.append('pics_description', pics_description);
                         
                         axios.post('/db_server/get_test_data', formData)
                           .then(function (response) {
