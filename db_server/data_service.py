@@ -27,8 +27,6 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 from docx.shared import Inches, Cm, Pt, RGBColor
 
-from PIL import Image
-
 
 def data_input(request): 
     if request.method == "GET":
@@ -51,6 +49,47 @@ def get_test_data(request):
             data = request.POST
             template_file_path = BASE_DIR + '/db_server/merge_file/template.docx'
 
+            type_s= data.getlist("type")
+            pipe_diameter_s= data.getlist("pipe_diameter")
+            quantity_of_flow_s= data.getlist("quantity_of_flow")
+            river_way_s= data.getlist("river_way")
+            have_or_not_s= data.getlist("have_or_not")
+
+            process_method = "□"
+            not_process_method = "□"
+            if data.get("process_method") == "self":
+                process_method = "☑"
+                not_process_method = "□"
+            elif data.get("process_method") == "delegation":
+                process_method = "□"
+                not_process_method = "☑"
+
+            process_ammount = "□"
+            not_process_ammount = "□"
+            if data.get("process_ammount") == "part":
+                process_ammount = "☑"
+                not_process_ammount = "□"
+            elif data.get("process_ammount") == "all":
+                process_ammount = "□"
+                not_process_ammount = "☑"
+
+            drainage = data.getlist("drainage")
+            drainage1 = "□"
+            drainage2 = "□"
+            drainage3 = "□"
+            drainage4 = "□"
+            for i in drainage:
+                if i == "drainage1":
+                    drainage1 = "☑"
+                elif i == "drainage2":
+                    drainage2 = "☑"
+                elif i == "drainage3":
+                    drainage3 = "☑"
+                elif i == "drainage4":
+                    drainage4 = "☑"
+
+
+
             # 获取模版文件
             document = MailMerge(template_file_path)
 
@@ -68,8 +107,10 @@ def get_test_data(request):
                 total_water= data.get("total_water"),
                 total_catering= data.get("total_catering"),
                 domastic_wastewater= data.get("domastic_wastewater"),
-                process_method= data.get("process_method"),
-                process_ammount= data.get("process_ammount"),
+                process_method= process_method,
+                not_process_method= not_process_method,
+                process_ammount= process_ammount,
+                not_process_ammount= not_process_ammount,
                 process_technology= data.get("process_technology"),
                 site_area= data.get("site_area"),
                 overall_floorage= data.get("overall_floorage"),
@@ -82,55 +123,60 @@ def get_test_data(request):
                 construction_period= data.get("construction_period"),
                 completion_date= data.get("completion_date"),
 
-                type_1= data.get("type_1"),
-                pipe_diameter_1= data.get("pipe_diameter_1"),
-                quantity_of_flow_1= data.get("quantity_of_flow_1"),
-                river_way_1= data.get("river_way_1"),
-                have_or_not_1= data.get("have_or_not_1"),
+                type_1              =   type_s[0],
+                pipe_diameter_1     =   pipe_diameter_s[0],
+                quantity_of_flow_1  =   quantity_of_flow_s[0],
+                river_way_1         =   river_way_s[0],
+                have_or_not_1       =   have_or_not_s[0],
 
-                type_2= data.get("type_2"),
-                pipe_diameter_2= data.get("pipe_diameter_2"),
-                quantity_of_flow_2= data.get("quantity_of_flow_2"),
-                river_way_2= data.get("river_way_2"),
-                have_or_not_2= data.get("have_or_not_2"),
+                type_2              =   type_s[1],
+                pipe_diameter_2     =   pipe_diameter_s[1],
+                quantity_of_flow_2  =   quantity_of_flow_s[1],
+                river_way_2         =   river_way_s[1],
+                have_or_not_2       =   have_or_not_s[1],
 
-                type_3= data.get("type_3"),
-                pipe_diameter_3= data.get("pipe_diameter_3"),
-                quantity_of_flow_3= data.get("quantity_of_flow_3"),
-                river_way_3= data.get("river_way_3"),
-                have_or_not_3= data.get("have_or_not_3"),
+                type_3              =   type_s[2],
+                pipe_diameter_3     =   pipe_diameter_s[2],
+                quantity_of_flow_3  =   quantity_of_flow_s[2],
+                river_way_3         =   river_way_s[2],
+                have_or_not_3       =   have_or_not_s[2],
 
-                type_4= data.get("type_4"),
-                pipe_diameter_4= data.get("pipe_diameter_4"),
-                quantity_of_flow_4= data.get("quantity_of_flow_4"),
-                river_way_4= data.get("river_way_4"),
-                have_or_not_4= data.get("have_or_not_4"),
+                type_4              =   type_s[3],
+                pipe_diameter_4     =   pipe_diameter_s[3],
+                quantity_of_flow_4  =   quantity_of_flow_s[3],
+                river_way_4         =   river_way_s[3],
+                have_or_not_4       =   have_or_not_s[3],
 
-                type_5= data.get("type_5"),
-                pipe_diameter_5= data.get("pipe_diameter_5"),
-                quantity_of_flow_5= data.get("quantity_of_flow_5"),
-                river_way_5= data.get("river_way_5"),
-                have_or_not_5= data.get("have_or_not_5"),
+                type_5              =   type_s[4],
+                pipe_diameter_5     =   pipe_diameter_s[4],
+                quantity_of_flow_5  =   quantity_of_flow_s[4],
+                river_way_5         =   river_way_s[4],
+                have_or_not_5       =   have_or_not_s[4],
 
-                type_6= data.get("type_6"),
-                pipe_diameter_6= data.get("pipe_diameter_6"),
-                quantity_of_flow_6= data.get("quantity_of_flow_6"),
-                river_way_6= data.get("river_way_6"),
-                have_or_not_6= data.get("have_or_not_6"),
+                type_6              =   type_s[5],
+                pipe_diameter_6     =   pipe_diameter_s[5],
+                quantity_of_flow_6  =   quantity_of_flow_s[5],
+                river_way_6         =   river_way_s[5],
+                have_or_not_6       =   have_or_not_s[5],
 
-                type_7= data.get("type_7"),
-                pipe_diameter_7= data.get("pipe_diameter_7"),
-                quantity_of_flow_7= data.get("quantity_of_flow_7"),
-                river_way_7= data.get("river_way_7"),
-                have_or_not_7= data.get("have_or_not_7"),
+                type_7              =   type_s[6],
+                pipe_diameter_7     =   pipe_diameter_s[6],
+                quantity_of_flow_7  =   quantity_of_flow_s[6],
+                river_way_7         =   river_way_s[6],
+                have_or_not_7       =   have_or_not_s[6],
 
-                type_8= data.get("type_8"),
-                pipe_diameter_8= data.get("pipe_diameter_8"),
-                quantity_of_flow_8= data.get("quantity_of_flow_8"),
-                river_way_8= data.get("river_way_8"),
-                have_or_not_8= data.get("have_or_not_8"),
+                type_8              =   type_s[7],
+                pipe_diameter_8     =   pipe_diameter_s[7],
+                quantity_of_flow_8  =   quantity_of_flow_s[7],
+                river_way_8         =   river_way_s[7],
+                have_or_not_8       =   have_or_not_s[7],
 
-                levels= data.get("levels")
+                levels= data.get("levels"),
+                drainage1 = drainage1,
+                drainage2 = drainage2,
+                drainage3 = drainage3,
+                drainage4 = drainage4,
+
                 )
             pics_description = data.getlist("pics_description")
 
@@ -149,30 +195,6 @@ def get_test_data(request):
 
             for index, fl in enumerate(file_data):
                 filename = fl._get_name()
-                print(index)
-                print(filename)
-
-                # path = default_storage.save('tmp/temp.png', ContentFile(fl.read()))
-                # tmp_file = os.path.join(BASE_DIR + '/db_server/merge_file/temp/', path)
-                
-                # file_content = fl.read()
-                # f4 = io.BytesIO(fl)	#转化为_io.BytesIO类型
-                # f5 = io.BufferedReader(fl)	
-                # read_file = TextIOWrapper(my_file.file, encoding='ASCII')
-
-                # img = Image.open(io.BytesIO(fl.file))
-                # file = fl.get_file()
-                
-
-                # path_file = BASE_DIR + '/db_server/merge_file/temp/'
-                # path_file += filename
-                # with open(path_file, "wb") as f:
-                #     if fl.multiple_chunks():
-                #         for content in fl.chuncks():
-                #             f.write(content)
-                #     else:
-                #         data = fl.read()
-                #         f.write(data)
 
                 if index > 0:
                     pic_table.add_row()
@@ -182,7 +204,6 @@ def get_test_data(request):
                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
                 cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 run = cell.paragraphs[0].add_run()
-                # img_path = BASE_DIR  + '/db_server/merge_file/temp/AlreadyOver.png'
                 picture = run.add_picture(fl)
                 picture.height = Cm(6)
                 picture.width = Cm(8)

@@ -168,86 +168,28 @@
                     <label for="completion_date">25.竣工日期</label>
                     <input type="text" class="form-control" v-model="form_data.completion_date" id="completion_date" />
                 </div>
-                <div class="form-group">
-                    <label>26.序号1</label>
-                    <select class="form-control" placeholder="种类" v-model="form_data.type_1">
+
+
+                <div v-for="(item, index) in form_data.pipes" class="form-group">
+                    <label>{[26 + index]}.序号{[index + 1]}</label>
+                    <select class="form-control" placeholder="种类" v-model="item.type">
                         <option></option>
                         <option>污水管</option>
                         <option>雨水管</option>
                         <option>合流管</option>
-                      </select>
-                    <input type="number" class="form-control" placeholder="管径 (mm)" v-model="form_data.pipe_diameter_1" />
-                    <input type="number" class="form-control" placeholder="排水量 (m³/日)" v-model="form_data.quantity_of_flow_1" />
-                    <input type="text" class="form-control" placeholder="路名、河道名" v-model="form_data.river_way_1" />
-                    <select class="form-control" placeholder="有无" v-model="form_data.have_or_not_1" >
+                    </select>
+                    <input type="number" class="form-control" placeholder="管径 (mm)" v-model="item.pipe_diameter" />
+                    <input type="number" class="form-control" placeholder="排水量 (m³/日)" v-model="item.quantity_of_flow" />
+                    <input type="text" class="form-control" placeholder="路名、河道名" v-model="item.river_way" />
+                    <select class="form-control" placeholder="有无" v-model="item.have_or_not" >
                         <option></option>
                         <option>有</option>
                         <option>无</option>
-                      </select>
+                    </select>
                 </div>
 
-                <div class="form-group">
-                    <label>27.序号2</label>
-                    <input type="text" class="form-control" placeholder="种类2" v-model="form_data.type_2" />
-                    <input type="number" class="form-control" placeholder="管径2" v-model="form_data.pipe_diameter_2" />
-                    <input type="number" class="form-control" placeholder="排水量2" v-model="form_data.quantity_of_flow_2" />
-                    <input type="text" class="form-control" placeholder="路名、河道名2" v-model="form_data.river_way_2" />
-                    <input type="text" class="form-control" placeholder="有无2" v-model="form_data.have_or_not_2" />
-                </div>
 
-                <div class="form-group">
-                    <label for="username">28.序号3</label>
-                    <input type="text" class="form-control" placeholder="种类3" v-model="form_data.type_3" />
-                    <input type="number" class="form-control" placeholder="管径3" v-model="form_data.pipe_diameter_3" />
-                    <input type="number" class="form-control" placeholder="排水量3" v-model="form_data.quantity_of_flow_3" />
-                    <input type="text" class="form-control" placeholder="路名、河道名3" v-model="form_data.river_way_3" />
-                    <input type="text" class="form-control" placeholder="有无3" v-model="form_data.have_or_not_3" />
-                </div>
-
-                <div class="form-group">
-                    <label for="username">29.序号4</label>
-                    <input type="text" class="form-control" placeholder="种类4" v-model="form_data.type_4" />
-                    <input type="number" class="form-control" placeholder="管径4" v-model="form_data.pipe_diameter_4" />
-                    <input type="number" class="form-control" placeholder="排水量4" v-model="form_data.quantity_of_flow_4" />
-                    <input type="text" class="form-control" placeholder="路名、河道名4" v-model="form_data.river_way_4" />
-                    <input type="text" class="form-control" placeholder="有无4" v-model="form_data.have_or_not_4" />
-                </div>
-
-                <div class="form-group">
-                    <label for="username">30.序号5</label>
-                    <input type="text" class="form-control" placeholder="种类5" v-model="form_data.type_5" />
-                    <input type="number" class="form-control" placeholder="管径5" v-model="form_data.pipe_diameter_5" />
-                    <input type="number" class="form-control" placeholder="排水量5" v-model="form_data.quantity_of_flow_5" />
-                    <input type="text" class="form-control" placeholder="路名、河道名5" v-model="form_data.river_way_5" />
-                    <input type="text" class="form-control" placeholder="有无5" v-model="form_data.have_or_not_5" />
-                </div>
-
-                <div class="form-group">
-                    <label for="username">31.序号6</label>
-                    <input type="text" class="form-control" placeholder="种类6" v-model="form_data.type_6" />
-                    <input type="number" class="form-control" placeholder="管径6" v-model="form_data.pipe_diameter_6" />
-                    <input type="number" class="form-control" placeholder="排水量6" v-model="form_data.quantity_of_flow_6" />
-                    <input type="text" class="form-control" placeholder="路名、河道名6" v-model="form_data.river_way_6" />
-                    <input type="text" class="form-control" placeholder="有无6" v-model="form_data.have_or_not_6" />
-                </div>
-
-                <div class="form-group">
-                    <label for="username">32.序号7</label>
-                    <input type="text" class="form-control" placeholder="种类7" v-model="form_data.type_7" />
-                    <input type="number" class="form-control" placeholder="管径7" v-model="form_data.pipe_diameter_7" />
-                    <input type="number" class="form-control" placeholder="排水量7" v-model="form_data.quantity_of_flow_7" />
-                    <input type="text" class="form-control" placeholder="路名、河道名7" v-model="form_data.river_way_7" />
-                    <input type="text" class="form-control" placeholder="有无7" v-model="form_data.have_or_not_7" />
-                </div>
-
-                <div class="form-group">
-                    <label for="username">33.序号8</label>
-                    <input type="text" class="form-control" placeholder="种类8" v-model="form_data.type_8" />
-                    <input type="number" class="form-control" placeholder="管径8" v-model="form_data.pipe_diameter_8" />
-                    <input type="number" class="form-control" placeholder="排水量8" v-model="form_data.quantity_of_flow_8" />
-                    <input type="text" class="form-control" placeholder="路名、河道名8" v-model="form_data.river_way_8" />
-                    <input type="text" class="form-control" placeholder="有无8" v-model="form_data.have_or_not_8" />
-                </div>
+ 
 
                 <div class="form-group">
                     <label for="levels">34.建筑层数（报告）</label>
@@ -307,7 +249,20 @@
                 delimiters: ["{[", "]}"],
                 el: "#app",
                 data() {
-                    let self = this
+                    let self = this;
+                    let pipes_ = [];
+                    for (let i = 0; i<=7; i++) {
+                        let pipe_date = {
+                            type: "",
+                            pipe_diameter: "",
+                            quantity_of_flow: "",
+                            river_way: "",
+                            have_or_not: ""
+                        };
+
+                        pipes_.push(pipe_date);
+                    }
+
                     return{
                     form_data: {
                         pics: [],
@@ -336,59 +291,12 @@
                         raw_material: "",
                         construction_period: "",
                         completion_date: "",
-
-                        type_1: "",
-                        pipe_diameter_1: "",
-                        quantity_of_flow_1: "",
-                        river_way_1: "",
-                        have_or_not_1: "",
-
-                        type_2: "",
-                        pipe_diameter_2: "",
-                        quantity_of_flow_2: "",
-                        river_way_2: "",
-                        have_or_not_2: "",
-
-                        type_3: "",
-                        pipe_diameter_3: "",
-                        quantity_of_flow_3: "",
-                        river_way_3: "",
-                        have_or_not_3: "",
-
-                        type_4: "",
-                        pipe_diameter_4: "",
-                        quantity_of_flow_4: "",
-                        river_way_4: "",
-                        have_or_not_4: "",
-
-                        type_5: "",
-                        pipe_diameter_5: "",
-                        quantity_of_flow_5: "",
-                        river_way_5: "",
-                        have_or_not_5: "",
-
-                        type_6: "",
-                        pipe_diameter_6: "",
-                        quantity_of_flow_6: "",
-                        river_way_6: "",
-                        have_or_not_6: "",
-
-                        type_7: "",
-                        pipe_diameter_7: "",
-                        quantity_of_flow_7: "",
-                        river_way_7: "",
-                        have_or_not_7: "",
-
-                        type_8: "",
-                        pipe_diameter_8: "",
-                        quantity_of_flow_8: "",
-                        river_way_8: "",
-                        have_or_not_8: "",
+                        pipes: pipes_,
 
                         levels: "",
                         drainage: [],
                     },
-                    }
+                    };
                 },
                 methods: {
                     // 添加图片及说明
@@ -465,62 +373,19 @@
                         formData.append('construction_period', this.form_data.construction_period);
                         formData.append('completion_date', this.form_data.completion_date);
 
-                        formData.append('type_1', this.form_data.type_1);
-                        formData.append('pipe_diameter_1', this.form_data.pipe_diameter_1);
-                        formData.append('quantity_of_flow_1', this.form_data.quantity_of_flow_1);
-                        formData.append('river_way_1', this.form_data.river_way_1);
-                        formData.append('have_or_not_1', this.form_data.have_or_not_1);
-
-                        formData.append('type_2', this.form_data.type_2);
-                        formData.append('pipe_diameter_2', this.form_data.pipe_diameter_2);
-                        formData.append('quantity_of_flow_2', this.form_data.quantity_of_flow_2);
-                        formData.append('river_way_2', this.form_data.river_way_2);
-                        formData.append('have_or_not_2', this.form_data.have_or_not_2);
-
-                        formData.append('type_3', this.form_data.type_3);
-                        formData.append('pipe_diameter_3', this.form_data.pipe_diameter_3);
-                        formData.append('quantity_of_flow_3', this.form_data.quantity_of_flow_3);
-                        formData.append('river_way_3', this.form_data.river_way_3);
-                        formData.append('have_or_not_3', this.form_data.have_or_not_3);
-
-                        formData.append('type_4', this.form_data.type_4);
-                        formData.append('pipe_diameter_4', this.form_data.pipe_diameter_4);
-                        formData.append('quantity_of_flow_4', this.form_data.quantity_of_flow_4);
-                        formData.append('river_way_4', this.form_data.river_way_4);
-                        formData.append('have_or_not_4', this.form_data.have_or_not_4);
-
-                        formData.append('type_5', this.form_data.type_5);
-                        formData.append('pipe_diameter_5', this.form_data.pipe_diameter_5);
-                        formData.append('quantity_of_flow_5', this.form_data.quantity_of_flow_5);
-                        formData.append('river_way_5', this.form_data.river_way_5);
-                        formData.append('have_or_not_5', this.form_data.have_or_not_5);
-
-                        formData.append('type_6', this.form_data.type_6);
-                        formData.append('pipe_diameter_6', this.form_data.pipe_diameter_6);
-                        formData.append('quantity_of_flow_6', this.form_data.quantity_of_flow_6);
-                        formData.append('river_way_6', this.form_data.river_way_6);
-                        formData.append('have_or_not_6', this.form_data.have_or_not_6);
-
-                        formData.append('type_7', this.form_data.type_7);
-                        formData.append('pipe_diameter_7', this.form_data.pipe_diameter_7);
-                        formData.append('quantity_of_flow_7', this.form_data.quantity_of_flow_7);
-                        formData.append('river_way_7', this.form_data.river_way_7);
-                        formData.append('have_or_not_7', this.form_data.have_or_not_7);
-
-                        formData.append('type_8', this.form_data.type_8);
-                        formData.append('pipe_diameter_8', this.form_data.pipe_diameter_8);
-                        formData.append('quantity_of_flow_8', this.form_data.quantity_of_flow_8);
-                        formData.append('river_way_8', this.form_data.river_way_8);
-                        formData.append('have_or_not_8', this.form_data.have_or_not_8);
-
+                        for (let i of this.form_data.pipes) {
+                            formData.append('type', i.type);
+                            formData.append('pipe_diameter', i.pipe_diameter);
+                            formData.append('quantity_of_flow', i.quantity_of_flow);
+                            formData.append('river_way', i.river_way);
+                            formData.append('have_or_not', i.have_or_not);
+                        }
 
 
                         formData.append('levels', this.form_data.levels);
-                        formData.append('drainage', this.form_data.drainage);
-                        
+
 
                         for (let i of this.form_data.drainage) {
-
                             formData.append('drainage', i);
                         }
 
