@@ -108,7 +108,7 @@
                         <label class="custom-control-label" for="customRadioInline1">自行处理</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input" value="delegation"  v-model="form_data.process_method" />
+                        <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input" value="delegation" v-model="form_data.process_method" />
                         <label class="custom-control-label" for="customRadioInline2">委托处理</label>
                     </div>
                 </div>
@@ -169,7 +169,6 @@
                     <input type="text" class="form-control" v-model="form_data.completion_date" id="completion_date" />
                 </div>
 
-
                 <div v-for="(item, index) in form_data.pipes" class="form-group">
                     <label>{[26 + index]}.序号{[index + 1]}</label>
                     <select class="form-control" placeholder="种类" v-model="item.type">
@@ -181,19 +180,16 @@
                     <input type="number" class="form-control" placeholder="管径 (mm)" v-model="item.pipe_diameter" />
                     <input type="number" class="form-control" placeholder="排水量 (m³/日)" v-model="item.quantity_of_flow" />
                     <input type="text" class="form-control" placeholder="路名、河道名" v-model="item.river_way" />
-                    <select class="form-control" placeholder="有无" v-model="item.have_or_not" >
+                    <select class="form-control" placeholder="有无" v-model="item.have_or_not">
                         <option></option>
                         <option>有</option>
                         <option>无</option>
                     </select>
                 </div>
 
-
- 
-
                 <div class="form-group">
                     <label for="levels">34.建筑层数（报告）</label>
-                    <input type="text" class="form-control" id="levels" v-model="form_data.levels" />
+                    <input type="number" class="form-control" id="levels" v-model="form_data.levels" />
                 </div>
 
                 <div class="form-group">
@@ -251,51 +247,50 @@
                 data() {
                     let self = this;
                     let pipes_ = [];
-                    for (let i = 0; i<=7; i++) {
+                    for (let i = 0; i <= 7; i++) {
                         let pipe_date = {
                             type: "",
                             pipe_diameter: "",
                             quantity_of_flow: "",
                             river_way: "",
-                            have_or_not: ""
+                            have_or_not: "",
                         };
 
                         pipes_.push(pipe_date);
                     }
 
-                    return{
-                    form_data: {
-                        pics: [],
-                        applyer: "",
-                        project: "",
-                        date: self.getDate(),
-                        post_legal_representative: "",
-                        cell_phone: "",
-                        project_addr: "",
-                        zongshui: "",
-                        tap_water: "",
-                        self_owned: "",
-                        total_water: "",
-                        total_catering: "",
-                        domastic_wastewater: "",
-                        process_method: "",
-                        process_ammount: "",
-                        process_technology: "",
-                        site_area: "",
-                        overall_floorage: "0",
-                        residence_area: "",
-                        factory_area: "",
-                        office_building_area: "",
-                        catering_area: "",
-                        main_product: "",
-                        raw_material: "",
-                        construction_period: "",
-                        completion_date: "",
-                        pipes: pipes_,
-
-                        levels: "",
-                        drainage: [],
-                    },
+                    return {
+                        form_data: {
+                            pics: [],
+                            applyer: "",
+                            project: "",
+                            date: self.getDate(),
+                            post_legal_representative: "",
+                            cell_phone: "",
+                            project_addr: "",
+                            zongshui: "",
+                            tap_water: "",
+                            self_owned: "",
+                            total_water: "",
+                            total_catering: "",
+                            domastic_wastewater: "",
+                            process_method: "",
+                            process_ammount: "",
+                            process_technology: "",
+                            site_area: "",
+                            overall_floorage: "0",
+                            residence_area: "",
+                            factory_area: "",
+                            office_building_area: "",
+                            catering_area: "",
+                            main_product: "",
+                            raw_material: "",
+                            construction_period: "",
+                            completion_date: "",
+                            pipes: pipes_,
+                            levels: "",
+                            drainage: [],
+                        },
                     };
                 },
                 methods: {
@@ -304,7 +299,7 @@
                         var pic_data = {
                             pic: "",
                             description: "",
-                            raw_pic:""
+                            raw_pic: "",
                         };
                         this.form_data.pics.push(pic_data);
                     },
@@ -330,16 +325,13 @@
                             // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
                             reader.readAsDataURL(item);
                             reader.addEventListener("load", function () {
-                               // console.log(item.lastModified)
-                               let img = new Image();
-                               img.src = this.result;
-                               console.log(item);
-                               let testfile = _this.imgCompress(item, img);
-                               console.log(testfile);
-                               this.form_data.pics[Number(index)].raw_pic = testfile;
-
-
-
+                                // console.log(item.lastModified)
+                                // let img = new Image();
+                                // img.src = this.result;
+                                // console.log(item);
+                                // let testfile = _this.imgCompress(item, img);
+                                // console.log(testfile);
+                                // this.form_data.pics[Number(index)].raw_pic = testfile;
 
                                 _this.form_data.pics[Number(index)].pic = this.result;
                             });
@@ -348,118 +340,115 @@
                     // 点击提交
                     submitPost() {
                         let formData = new FormData();
-                        formData.append('applyer', this.form_data.applyer);
-                        formData.append('project', this.form_data.project);
-                        formData.append('date', this.form_data.date);
-                        formData.append('post_legal_representative', this.form_data.post_legal_representative);
-                        formData.append('cell_phone', this.form_data.cell_phone);
-                        formData.append('project_addr', this.form_data.project_addr);
-                        formData.append('zongshui', this.form_data.zongshui);
-                        formData.append('tap_water', this.form_data.tap_water);
-                        formData.append('self_owned', this.form_data.self_owned);
-                        formData.append('total_water', this.form_data.total_water);
-                        formData.append('total_catering', this.form_data.total_catering);
-                        formData.append('domastic_wastewater', this.form_data.domastic_wastewater);
-                        formData.append('process_method', this.form_data.process_method);
-                        formData.append('process_ammount', this.form_data.process_ammount);
-                        formData.append('process_technology', this.form_data.process_technology);
-                        formData.append('site_area', this.form_data.site_area);
-                        formData.append('overall_floorage', this.form_data.overall_floorage);
-                        formData.append('residence_area', this.form_data.residence_area);
-                        formData.append('factory_area', this.form_data.factory_area);
-                        formData.append('office_building_area', this.form_data.office_building_area);
-                        formData.append('catering_area', this.form_data.catering_area);
-                        formData.append('raw_material', this.form_data.raw_material);
-                        formData.append('construction_period', this.form_data.construction_period);
-                        formData.append('completion_date', this.form_data.completion_date);
+                        formData.append("applyer", this.form_data.applyer);
+                        formData.append("project", this.form_data.project);
+                        formData.append("date", this.form_data.date);
+                        formData.append("post_legal_representative", this.form_data.post_legal_representative);
+                        formData.append("cell_phone", this.form_data.cell_phone);
+                        formData.append("project_addr", this.form_data.project_addr);
+                        formData.append("zongshui", this.form_data.zongshui);
+                        formData.append("tap_water", this.form_data.tap_water);
+                        formData.append("self_owned", this.form_data.self_owned);
+                        formData.append("total_water", this.form_data.total_water);
+                        formData.append("total_catering", this.form_data.total_catering);
+                        formData.append("domastic_wastewater", this.form_data.domastic_wastewater);
+                        formData.append("process_method", this.form_data.process_method);
+                        formData.append("process_ammount", this.form_data.process_ammount);
+                        formData.append("process_technology", this.form_data.process_technology);
+                        formData.append("site_area", this.form_data.site_area);
+                        formData.append("overall_floorage", this.form_data.overall_floorage);
+                        formData.append("residence_area", this.form_data.residence_area);
+                        formData.append("factory_area", this.form_data.factory_area);
+                        formData.append("office_building_area", this.form_data.office_building_area);
+                        formData.append("catering_area", this.form_data.catering_area);
+                        formData.append("raw_material", this.form_data.raw_material);
+                        formData.append("construction_period", this.form_data.construction_period);
+                        formData.append("completion_date", this.form_data.completion_date);
 
                         for (let i of this.form_data.pipes) {
-                            formData.append('type', i.type);
-                            formData.append('pipe_diameter', i.pipe_diameter);
-                            formData.append('quantity_of_flow', i.quantity_of_flow);
-                            formData.append('river_way', i.river_way);
-                            formData.append('have_or_not', i.have_or_not);
+                            formData.append("type", i.type);
+                            formData.append("pipe_diameter", i.pipe_diameter);
+                            formData.append("quantity_of_flow", i.quantity_of_flow);
+                            formData.append("river_way", i.river_way);
+                            formData.append("have_or_not", i.have_or_not);
                         }
 
-
-                        formData.append('levels', this.form_data.levels);
-
+                        formData.append("levels", this.form_data.levels);
 
                         for (let i of this.form_data.drainage) {
-                            formData.append('drainage', i);
+                            formData.append("drainage", i);
                         }
 
                         for (let i of this.form_data.pics) {
-                            
-                            formData.append('file', i.raw_pic);
-                            formData.append('pics_description', i.description);
+                            formData.append("file", i.raw_pic);
+                            formData.append("pics_description", i.description);
                         }
-                       
-                        axios.post('/db_server/get_test_data', formData)
-                          .then(function (response) {
-                            console.log(response);
-                            location.href = response.data.url;
-                          })
-                          .catch(function (error) {
-                            console.log(error);
-                          });
 
+                        axios
+                            .post("/db_server/get_test_data", formData)
+                            .then(function (response) {
+                                console.log(response);
+                                location.href = response.data.url;
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
                     },
                     // 压缩图片
-                    imgCompress (file, img) {
-
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
+                    imgCompress(file, img) {
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
                         // 获取文件宽高比例
                         const { width: originWidth, height: originHeight } = img;
                         // 自定义等比例缩放宽高属性，这里我用的是固定800宽度，高度是等比例缩放
                         const scale = +(originWidth / originHeight).toFixed(2); // 比例取小数点后两位)
                         const targetWidth = 800; // 固定宽
                         const targetHeight = Math.round(targetWidth / scale); // 等比例缩放高
-                    
+
                         canvas.width = targetWidth;
                         canvas.height = targetHeight;
                         context.clearRect(0, 0, targetWidth, targetHeight);
                         // canvas重新绘制图片
                         context.drawImage(img, 0, 0, targetWidth, targetHeight);
                         // canvas转二进制对象转文件对象，返回
-                        const type = 'image/jpeg';
+                        const type = "image/jpeg";
                         const quality = 0.7;
-                        canvas.toBlob(function (blob) {
-                        return new File([blob], file.name, {
+                        canvas.toBlob(
+                            function (blob) {
+                                return new File([blob], file.name, {
+                                    type,
+                                    lastModified: file.lastModified,
+                                });
+                            },
                             type,
-                            lastModified: file.lastModified
-                        });
-    
-                        }, type, quality);
+                            quality
+                        );
 
                         //
-
-
                     },
 
                     // file转换成img对象
-                    fileToImg (file) {
+                    fileToImg(file) {
                         return new Promise((resolve, reject) => {
-                        const img = new Image()
-                        const reader = new FileReader()
-                        reader.onload = function (e) {
-                            img.src = e.target.result
-                        }
-                        reader.onerror = function (e) {
-                            reject(e)
-                        }
-                        reader.readAsDataURL(file)
-                        img.onload = function () {
-                            resolve(img)
-                        }
-                        img.onerror = function (e) {
-                            reject(e)
-                        }
-                        })
+                            const img = new Image();
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                img.src = e.target.result;
+                            };
+                            reader.onerror = function (e) {
+                                reject(e);
+                            };
+                            reader.readAsDataURL(file);
+                            img.onload = function () {
+                                resolve(img);
+                            };
+                            img.onerror = function (e) {
+                                reject(e);
+                            };
+                        });
                     },
 
-                    getDate () {
+                    getDate() {
                         var dt = new Date();
                         let year = dt.getFullYear();
                         let month = dt.getMonth() + 1;
@@ -467,7 +456,7 @@
                         return `${year}-${month}-${date}`;
                     },
                     // 面积修改
-                    areachange () {
+                    areachange() {
                         let a = Number(this.form_data.residence_area);
                         a = isNaN(a) ? 0 : a;
 
@@ -481,11 +470,8 @@
                         d = isNaN(d) ? 0 : d;
                         this.form_data.overall_floorage = a + b + c + d;
                     },
-
                 }, //methods end
-
             });
         </script>
-
     </body>
 </html>
