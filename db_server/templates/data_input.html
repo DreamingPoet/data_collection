@@ -79,27 +79,27 @@
                 </div>
                 <div class="form-group">
                     <label for="zongshui">7.总水</label>
-                    <input type="text" class="form-control" v-model="form_data.zongshui" id="zongshui" />
+                    <input type="number" class="form-control" v-model="form_data.zongshui" id="zongshui" />
                 </div>
                 <div class="form-group">
                     <label for="tap_water">8.自来</label>
-                    <input type="text" class="form-control" v-model="form_data.tap_water" id="tap_water" />
+                    <input type="number" class="form-control" v-model="form_data.tap_water" id="tap_water" />
                 </div>
                 <div class="form-group">
                     <label for="self_owned">9.自备</label>
-                    <input type="text" class="form-control" v-model="form_data.self_owned" id="self_owned" />
+                    <input type="number" class="form-control" v-model="form_data.self_owned" id="self_owned" />
                 </div>
                 <div class="form-group">
                     <label for="total_water">10.总排</label>
-                    <input type="text" class="form-control" v-model="form_data.total_water" id="total_water" />
+                    <input type="number" class="form-control" v-model="form_data.total_water" id="total_water" />
                 </div>
                 <div class="form-group">
                     <label for="total_catering">11.含餐饮</label>
-                    <input type="text" class="form-control" v-model="form_data.total_catering" id="total_catering" />
+                    <input type="number" class="form-control" v-model="form_data.total_catering" id="total_catering" />
                 </div>
                 <div class="form-group">
                     <label for="domastic_wastewater">12.其中生活污水量</label>
-                    <input type="text" class="form-control" v-model="form_data.domastic_wastewater" id="domastic_wastewater" />
+                    <input type="number" class="form-control" v-model="form_data.domastic_wastewater" id="domastic_wastewater" />
                 </div>
                 <div class="form-group">
                     <label>13.处理方式：</label>
@@ -128,29 +128,29 @@
                     <input type="text" class="form-control" v-model="form_data.process_technology" id="process_technology" />
                 </div>
                 <div class="form-group">
-                    <label for="site_area">16.用地面积</label>
-                    <input type="text" class="form-control" v-model="form_data.site_area" id="site_area" />
+                    <label for="site_area">16.用地面积 (m²)</label>
+                    <input type="number" class="form-control" v-model="form_data.site_area" id="site_area" />
                 </div>
                 <div class="form-group">
-                    <label for="overall_floorage">17.总建筑面积</label>
-                    <input type="text" class="form-control" v-model="form_data.overall_floorage" id="overall_floorage" />
+                    <label for="overall_floorage">17.总建筑面积 (m²)</label>
+                    <input type="number" class="form-control" v-model="form_data.overall_floorage" id="overall_floorage" />
                 </div>
 
                 <div class="form-group">
-                    <label for="residence_area">18.住宅</label>
-                    <input type="text" class="form-control" v-model="form_data.residence_area" id="residence_area" />
+                    <label for="residence_area">18.住宅 (m²)</label>
+                    <input type="number" class="form-control" @change="areachange()" v-model="form_data.residence_area" id="residence_area" />
                 </div>
                 <div class="form-group">
-                    <label for="factory_area">19.厂房</label>
-                    <input type="text" class="form-control" v-model="form_data.factory_area" id="factory_area" />
+                    <label for="factory_area">19.厂房 (m²)</label>
+                    <input type="number" class="form-control" @change="areachange()" v-model="form_data.factory_area" id="factory_area" />
                 </div>
                 <div class="form-group">
-                    <label for="office_building_area">20.办公楼</label>
-                    <input type="text" class="form-control" v-model="form_data.office_building_area" id="office_building_area" />
+                    <label for="office_building_area">20.办公楼 (m²)</label>
+                    <input type="number" class="form-control" @change="areachange()" v-model="form_data.office_building_area" id="office_building_area" />
                 </div>
                 <div class="form-group">
-                    <label for="catering_area">21.餐饮</label>
-                    <input type="text" class="form-control" v-model="form_data.catering_area" id="catering_area" />
+                    <label for="catering_area">21.餐饮 (m²)</label>
+                    <input type="number" class="form-control" @change="areachange()" v-model="form_data.catering_area" id="catering_area" />
                 </div>
                 <div class="form-group">
                     <label for="main_product">22.主要产品或服务</label>
@@ -170,18 +170,27 @@
                 </div>
                 <div class="form-group">
                     <label>26.序号1</label>
-                    <input type="text" class="form-control" placeholder="种类1" v-model="form_data.type_1" />
-                    <input type="text" class="form-control" placeholder="管径1" v-model="form_data.pipe_diameter_1" />
-                    <input type="text" class="form-control" placeholder="排水量1" v-model="form_data.quantity_of_flow_1" />
-                    <input type="text" class="form-control" placeholder="路名、河道名1" v-model="form_data.river_way_1" />
-                    <input type="text" class="form-control" placeholder="有无1" v-model="form_data.have_or_not_1" />
+                    <select class="form-control" placeholder="种类" v-model="form_data.type_1">
+                        <option></option>
+                        <option>污水管</option>
+                        <option>雨水管</option>
+                        <option>合流管</option>
+                      </select>
+                    <input type="number" class="form-control" placeholder="管径 (mm)" v-model="form_data.pipe_diameter_1" />
+                    <input type="number" class="form-control" placeholder="排水量 (m³/日)" v-model="form_data.quantity_of_flow_1" />
+                    <input type="text" class="form-control" placeholder="路名、河道名" v-model="form_data.river_way_1" />
+                    <select class="form-control" placeholder="有无" v-model="form_data.have_or_not_1" >
+                        <option></option>
+                        <option>有</option>
+                        <option>无</option>
+                      </select>
                 </div>
 
                 <div class="form-group">
                     <label>27.序号2</label>
                     <input type="text" class="form-control" placeholder="种类2" v-model="form_data.type_2" />
-                    <input type="text" class="form-control" placeholder="管径2" v-model="form_data.pipe_diameter_2" />
-                    <input type="text" class="form-control" placeholder="排水量2" v-model="form_data.quantity_of_flow_2" />
+                    <input type="number" class="form-control" placeholder="管径2" v-model="form_data.pipe_diameter_2" />
+                    <input type="number" class="form-control" placeholder="排水量2" v-model="form_data.quantity_of_flow_2" />
                     <input type="text" class="form-control" placeholder="路名、河道名2" v-model="form_data.river_way_2" />
                     <input type="text" class="form-control" placeholder="有无2" v-model="form_data.have_or_not_2" />
                 </div>
@@ -189,8 +198,8 @@
                 <div class="form-group">
                     <label for="username">28.序号3</label>
                     <input type="text" class="form-control" placeholder="种类3" v-model="form_data.type_3" />
-                    <input type="text" class="form-control" placeholder="管径3" v-model="form_data.pipe_diameter_3" />
-                    <input type="text" class="form-control" placeholder="排水量3" v-model="form_data.quantity_of_flow_3" />
+                    <input type="number" class="form-control" placeholder="管径3" v-model="form_data.pipe_diameter_3" />
+                    <input type="number" class="form-control" placeholder="排水量3" v-model="form_data.quantity_of_flow_3" />
                     <input type="text" class="form-control" placeholder="路名、河道名3" v-model="form_data.river_way_3" />
                     <input type="text" class="form-control" placeholder="有无3" v-model="form_data.have_or_not_3" />
                 </div>
@@ -198,8 +207,8 @@
                 <div class="form-group">
                     <label for="username">29.序号4</label>
                     <input type="text" class="form-control" placeholder="种类4" v-model="form_data.type_4" />
-                    <input type="text" class="form-control" placeholder="管径4" v-model="form_data.pipe_diameter_4" />
-                    <input type="text" class="form-control" placeholder="排水量4" v-model="form_data.quantity_of_flow_4" />
+                    <input type="number" class="form-control" placeholder="管径4" v-model="form_data.pipe_diameter_4" />
+                    <input type="number" class="form-control" placeholder="排水量4" v-model="form_data.quantity_of_flow_4" />
                     <input type="text" class="form-control" placeholder="路名、河道名4" v-model="form_data.river_way_4" />
                     <input type="text" class="form-control" placeholder="有无4" v-model="form_data.have_or_not_4" />
                 </div>
@@ -207,8 +216,8 @@
                 <div class="form-group">
                     <label for="username">30.序号5</label>
                     <input type="text" class="form-control" placeholder="种类5" v-model="form_data.type_5" />
-                    <input type="text" class="form-control" placeholder="管径5" v-model="form_data.pipe_diameter_5" />
-                    <input type="text" class="form-control" placeholder="排水量5" v-model="form_data.quantity_of_flow_5" />
+                    <input type="number" class="form-control" placeholder="管径5" v-model="form_data.pipe_diameter_5" />
+                    <input type="number" class="form-control" placeholder="排水量5" v-model="form_data.quantity_of_flow_5" />
                     <input type="text" class="form-control" placeholder="路名、河道名5" v-model="form_data.river_way_5" />
                     <input type="text" class="form-control" placeholder="有无5" v-model="form_data.have_or_not_5" />
                 </div>
@@ -216,8 +225,8 @@
                 <div class="form-group">
                     <label for="username">31.序号6</label>
                     <input type="text" class="form-control" placeholder="种类6" v-model="form_data.type_6" />
-                    <input type="text" class="form-control" placeholder="管径6" v-model="form_data.pipe_diameter_6" />
-                    <input type="text" class="form-control" placeholder="排水量6" v-model="form_data.quantity_of_flow_6" />
+                    <input type="number" class="form-control" placeholder="管径6" v-model="form_data.pipe_diameter_6" />
+                    <input type="number" class="form-control" placeholder="排水量6" v-model="form_data.quantity_of_flow_6" />
                     <input type="text" class="form-control" placeholder="路名、河道名6" v-model="form_data.river_way_6" />
                     <input type="text" class="form-control" placeholder="有无6" v-model="form_data.have_or_not_6" />
                 </div>
@@ -225,8 +234,8 @@
                 <div class="form-group">
                     <label for="username">32.序号7</label>
                     <input type="text" class="form-control" placeholder="种类7" v-model="form_data.type_7" />
-                    <input type="text" class="form-control" placeholder="管径7" v-model="form_data.pipe_diameter_7" />
-                    <input type="text" class="form-control" placeholder="排水量7" v-model="form_data.quantity_of_flow_7" />
+                    <input type="number" class="form-control" placeholder="管径7" v-model="form_data.pipe_diameter_7" />
+                    <input type="number" class="form-control" placeholder="排水量7" v-model="form_data.quantity_of_flow_7" />
                     <input type="text" class="form-control" placeholder="路名、河道名7" v-model="form_data.river_way_7" />
                     <input type="text" class="form-control" placeholder="有无7" v-model="form_data.have_or_not_7" />
                 </div>
@@ -234,8 +243,8 @@
                 <div class="form-group">
                     <label for="username">33.序号8</label>
                     <input type="text" class="form-control" placeholder="种类8" v-model="form_data.type_8" />
-                    <input type="text" class="form-control" placeholder="管径8" v-model="form_data.pipe_diameter_8" />
-                    <input type="text" class="form-control" placeholder="排水量8" v-model="form_data.quantity_of_flow_8" />
+                    <input type="number" class="form-control" placeholder="管径8" v-model="form_data.pipe_diameter_8" />
+                    <input type="number" class="form-control" placeholder="排水量8" v-model="form_data.quantity_of_flow_8" />
                     <input type="text" class="form-control" placeholder="路名、河道名8" v-model="form_data.river_way_8" />
                     <input type="text" class="form-control" placeholder="有无8" v-model="form_data.have_or_not_8" />
                 </div>
@@ -297,12 +306,14 @@
             new Vue({
                 delimiters: ["{[", "]}"],
                 el: "#app",
-                data: {
+                data() {
+                    let self = this
+                    return{
                     form_data: {
                         pics: [],
                         applyer: "",
                         project: "",
-                        date: "",
+                        date: self.getDate(),
                         post_legal_representative: "",
                         cell_phone: "",
                         project_addr: "",
@@ -316,7 +327,7 @@
                         process_ammount: "",
                         process_technology: "",
                         site_area: "",
-                        overall_floorage: "",
+                        overall_floorage: "0",
                         residence_area: "",
                         factory_area: "",
                         office_building_area: "",
@@ -377,8 +388,10 @@
                         levels: "",
                         drainage: [],
                     },
+                    }
                 },
                 methods: {
+                    // 添加图片及说明
                     addpic: function (message) {
                         var pic_data = {
                             pic: "",
@@ -387,10 +400,12 @@
                         };
                         this.form_data.pics.push(pic_data);
                     },
+                    // 删除图片及说明
                     rmpic: function (index) {
                         console.log(index);
                         this.form_data.pics.splice(Number(index), 1);
                     },
+                    // 选择图片
                     upload(e, index) {
                         console.log(index);
                         // e.target指向事件执行时鼠标所点击区域的那个元素
@@ -407,10 +422,22 @@
                             // readAsDataURL方法可以将上传的图片格式转为base64,然后在存入到图片路径,这样就可以上传任意位置的图片
                             reader.readAsDataURL(item);
                             reader.addEventListener("load", function () {
+                               // console.log(item.lastModified)
+                               let img = new Image();
+                               img.src = this.result;
+                               console.log(item);
+                               let testfile = _this.imgCompress(item, img);
+                               console.log(testfile);
+                               this.form_data.pics[Number(index)].raw_pic = testfile;
+
+
+
+
                                 _this.form_data.pics[Number(index)].pic = this.result;
                             });
                         }
                     },
+                    // 点击提交
                     submitPost() {
                         let formData = new FormData();
                         formData.append('applyer', this.form_data.applyer);
@@ -492,6 +519,11 @@
                         formData.append('drainage', this.form_data.drainage);
                         
 
+                        for (let i of this.form_data.drainage) {
+
+                            formData.append('drainage', i);
+                        }
+
                         for (let i of this.form_data.pics) {
                             
                             formData.append('file', i.raw_pic);
@@ -508,8 +540,85 @@
                           });
 
                     },
+                    // 压缩图片
+                    imgCompress (file, img) {
 
-                },
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        // 获取文件宽高比例
+                        const { width: originWidth, height: originHeight } = img;
+                        // 自定义等比例缩放宽高属性，这里我用的是固定800宽度，高度是等比例缩放
+                        const scale = +(originWidth / originHeight).toFixed(2); // 比例取小数点后两位)
+                        const targetWidth = 800; // 固定宽
+                        const targetHeight = Math.round(targetWidth / scale); // 等比例缩放高
+                    
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+                        context.clearRect(0, 0, targetWidth, targetHeight);
+                        // canvas重新绘制图片
+                        context.drawImage(img, 0, 0, targetWidth, targetHeight);
+                        // canvas转二进制对象转文件对象，返回
+                        const type = 'image/jpeg';
+                        const quality = 0.7;
+                        canvas.toBlob(function (blob) {
+                        return new File([blob], file.name, {
+                            type,
+                            lastModified: file.lastModified
+                        });
+    
+                        }, type, quality);
+
+                        //
+
+
+                    },
+
+                    // file转换成img对象
+                    fileToImg (file) {
+                        return new Promise((resolve, reject) => {
+                        const img = new Image()
+                        const reader = new FileReader()
+                        reader.onload = function (e) {
+                            img.src = e.target.result
+                        }
+                        reader.onerror = function (e) {
+                            reject(e)
+                        }
+                        reader.readAsDataURL(file)
+                        img.onload = function () {
+                            resolve(img)
+                        }
+                        img.onerror = function (e) {
+                            reject(e)
+                        }
+                        })
+                    },
+
+                    getDate () {
+                        var dt = new Date();
+                        let year = dt.getFullYear();
+                        let month = dt.getMonth() + 1;
+                        let date = dt.getDate();
+                        return `${year}-${month}-${date}`;
+                    },
+                    // 面积修改
+                    areachange () {
+                        let a = Number(this.form_data.residence_area);
+                        a = isNaN(a) ? 0 : a;
+
+                        let b = Number(this.form_data.factory_area);
+                        b = isNaN(b) ? 0 : b;
+
+                        let c = Number(this.form_data.office_building_area);
+                        c = isNaN(c) ? 0 : c;
+
+                        let d = Number(this.form_data.catering_area);
+                        d = isNaN(d) ? 0 : d;
+                        this.form_data.overall_floorage = a + b + c + d;
+                    },
+
+                }, //methods end
+
             });
         </script>
 
