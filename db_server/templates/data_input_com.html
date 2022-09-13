@@ -53,10 +53,17 @@
                     <h3 class="mb-3 fw-normal">污水排入许可申请(企业)</h3>
                     <a class="" href="/db_server/data_input">切换个人申请 >></a>
                 </div>
+
                 <div class="form-group">
                     <label for="applyer">1.排水户名称</label>
                     <input type="text" class="form-control" v-model="form_data.applyer" id="applyer" />
                 </div>
+
+                <div class="form-group">
+                    <label for="applyer_addr">1.1排水户地址</label>
+                    <input type="text" class="form-control" @change="on_addr_change()" v-model="form_data.applyer_addr" id="applyer_addr" />
+                </div>
+
                 <div class="form-group">
                     <label for="project">2.排水项目名称</label>
                     <input type="text" class="form-control" v-model="form_data.project" id="project" />
@@ -241,6 +248,7 @@
                         form_data: {
                             pics: [],
                             applyer: "",
+                            applyer_addr: "",
                             project: "",
                             date: self.getDate(),
                             post_legal_representative: "",
@@ -319,6 +327,7 @@
                     submitPost() {
                         let formData = new FormData();
                         formData.append("applyer", this.form_data.applyer);
+                        formData.append("applyer_addr", this.form_data.applyer_addr);
                         formData.append("project", this.form_data.project);
                         formData.append("date", this.form_data.date);
                         formData.append("post_legal_representative", this.form_data.post_legal_representative);
@@ -447,6 +456,10 @@
                         let d = Number(this.form_data.catering_area);
                         d = isNaN(d) ? 0 : d;
                         this.form_data.overall_floorage = a + b + c + d;
+                    },
+
+                    on_addr_change () {
+                        this.form_data.project_addr =  this.form_data.applyer_addr;
                     },
                 }, //methods end
             });

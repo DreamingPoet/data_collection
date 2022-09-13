@@ -89,11 +89,11 @@ def get_test_data(request):
             residence_area = data.get("residence_area")
             residence_area = residence_area if residence_area != "" and residence_area != "0" else "/"
             factory_area = data.get("factory_area")
-            factory_area = factory_area if residence_area != "" and residence_area != "0" else "/"
+            factory_area = factory_area if factory_area != "" and factory_area != "0" else "/"
             office_building_area = data.get("office_building_area")
-            office_building_area = office_building_area if residence_area != "" and residence_area != "0" else "/"
+            office_building_area = office_building_area if office_building_area != "" and office_building_area != "0" else "/"
             catering_area = data.get("catering_area")
-            catering_area = catering_area if residence_area != "" and residence_area != "0" else "/"
+            catering_area = catering_area if catering_area != "" and catering_area != "0" else "/"
 
             # 获取模版文件
             document = MailMerge(template_file_path)
@@ -101,6 +101,7 @@ def get_test_data(request):
             # 将获取的数据设置到模版的域中
             document.merge(
                 applyer=data.get("applyer"),
+                applyer_addr=data.get("applyer_addr"),
                 project=data.get("project"),
                 date=data.get("date"),
                 post_legal_representative=data.get(
@@ -210,8 +211,8 @@ def get_test_data(request):
                 cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 run = cell.paragraphs[0].add_run()
                 picture = run.add_picture(fl)
-                picture.height = Cm(6)
-                picture.width = Cm(8)
+                picture.height = Cm(9)
+                picture.width = Cm(16)
 
                 cell = pic_table.cell(index * 2 + 1, 0)
                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
