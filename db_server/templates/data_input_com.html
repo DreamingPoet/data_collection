@@ -56,11 +56,11 @@
 
                 <div class="form-group">
                     <label for="applyer">1.排水户名称</label>
-                    <input type="text" class="form-control" v-model="form_data.applyer" id="applyer" />
+                    <input type="text" class="form-control" @change="on_applyer_change()" v-model="form_data.applyer" id="applyer" />
                 </div>
 
                 <div class="form-group">
-                    <label for="applyer_addr">1.1排水户地址</label>
+                    <label for="applyer_addr">1.1详细地址</label>
                     <input type="text" class="form-control" @change="on_addr_change()" v-model="form_data.applyer_addr" id="applyer_addr" />
                 </div>
 
@@ -68,18 +68,42 @@
                     <label for="project">2.排水项目名称</label>
                     <input type="text" class="form-control" v-model="form_data.project" id="project" />
                 </div>
+
+                <div class="form-group">
+                    <label for="applyerd">2.1.申请单位</label>
+                    <input type="text" class="form-control" v-model="form_data.applyerd" id="applyerd" />
+                </div>
+
                 <div class="form-group">
                     <label for="date">3.填表日期</label>
                     <input type="text" class="form-control" v-model="form_data.date" id="date" />
                 </div>
+
                 <div class="form-group">
-                    <label for="post_legal_representative">4.邮编/法定代表人</label>
-                    <input type="text" class="form-control" v-model="form_data.post_legal_representative" id="post_legal_representative" />
+                    <label for="applyerfaren3">4.1.法定代表人（第3页）</label>
+                    <input type="text" class="form-control" @change="on_applyer1_change()" v-model="form_data.applyerfaren3" id="applyerfaren3" />
                 </div>
+
                 <div class="form-group">
-                    <label for="cell_phone">5.法定代表人手机</label>
-                    <input type="text" class="form-control" v-model="form_data.cell_phone" id="cell_phone" />
+                    <label for="applyerfaren9">4.1.1.法定代表人（最后页）</label>
+                    <input type="text" class="form-control" v-model="form_data.applyerfaren9" id="applyerfaren9" />
+                </div>      
+
+                <div class="form-group">
+                    <label for="cell_phone">4.2.法定代表人手机</label>
+                    <input type="text" class="form-control" @change="on_cell_phone1_change()" v-model="form_data.cell_phone" id="cell_phone" />
+                </div>          
+
+                <div class="form-group">
+                    <label for="applyer1">4.3.联系人</label>
+                    <input type="text" class="form-control" v-model="form_data.applyer1" id="applyer1" />
                 </div>
+
+                <div class="form-group">
+                    <label for="cell_phone1">5.联系人手机</label>
+                    <input type="text" class="form-control" v-model="form_data.cell_phone1" id="cell_phone1" />
+                </div>  
+
                 <div class="form-group">
                     <label for="project_addr">6.排水（建设）项目行政区和地址</label>
                     <input type="text" class="form-control" v-model="form_data.project_addr" id="project_addr" />
@@ -107,11 +131,32 @@
                 <div class="form-group">
                     <label for="domastic_wastewater">12.其中生活污水量</label>
                     <input type="number" class="form-control" v-model="form_data.domastic_wastewater" id="domastic_wastewater" />
+                <div class="form-group">
+                    <label>13.处理方式：</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="customRadioInline" class="custom-control-input" value="self" v-model="form_data.process_method" />
+                        <label class="custom-control-label" for="customRadioInline1">自行处理</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input" value="delegation" v-model="form_data.process_method" />
+                        <label class="custom-control-label" for="customRadioInline2">委托处理</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>14.处理量：</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline3" name="customRadioInline2" class="custom-control-input" value="part" v-model="form_data.process_ammount" />
+                        <label class="custom-control-label" for="customRadioInline3">部分</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline4" name="customRadioInline2" class="custom-control-input" value="all" v-model="form_data.process_ammount" />
+                        <label class="custom-control-label" for="customRadioInline4">全部</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="process_technology">13.处理工艺</label>
                     <input type="text" class="form-control" v-model="form_data.process_technology" id="process_technology" />
-                </div>
+                </div> 
                 <div class="form-group">
                     <label for="site_area">14.用地面积 (m²)</label>
                     <input type="number" class="form-control" v-model="form_data.site_area" id="site_area" />
@@ -249,9 +294,15 @@
                             pics: [],
                             applyer: "",
                             applyer_addr: "",
+                            applyer1: "",
                             project: "",
                             date: self.getDate(),
                             post_legal_representative: "",
+                            applyerd: "",
+                            applyerfaren: "",
+                            applyerfaren3: "",
+                            applyerfaren9: "",
+                            cell_phone1: "",
                             cell_phone: "",
                             project_addr: "",
                             zongshui: "",
@@ -328,6 +379,12 @@
                         let formData = new FormData();
                         formData.append("applyer", this.form_data.applyer);
                         formData.append("applyer_addr", this.form_data.applyer_addr);
+                        formData.append("applyer1", this.form_data.applyer1);
+                        formData.append("applyerfaren", this.form_data.applyerfaren);
+                        formData.append("applyerfaren3", this.form_data.applyerfaren3);
+                        formData.append("applyerfaren9", this.form_data.applyerfaren9);
+                        formData.append("applyerd", this.form_data.applyerd);
+                        formData.append("cell_phone1", this.form_data.cell_phone1);
                         formData.append("project", this.form_data.project);
                         formData.append("date", this.form_data.date);
                         formData.append("post_legal_representative", this.form_data.post_legal_representative);
@@ -351,6 +408,7 @@
                         formData.append("raw_material", this.form_data.raw_material);
                         formData.append("construction_period", this.form_data.construction_period);
                         formData.append("completion_date", this.form_data.completion_date);
+                        formData.append("main_product", this.form_data.main_product);
 
                         for (let i of this.form_data.pipes) {
                             formData.append("type", i.type);
@@ -461,6 +519,22 @@
                     on_addr_change () {
                         this.form_data.project_addr =  this.form_data.applyer_addr;
                     },
+                    
+                    on_applyer_change () {
+                        this.form_data.project =  this.form_data.applyer;
+                        this.form_data.applyerd =  this.form_data.applyer;
+                    },
+
+                    on_applyer1_change () {
+                        this.form_data.applyer1 =  this.form_data.applyerfaren3;
+                        this.form_data.applyerfaren9 =  this.form_data.applyerfaren3;
+                    },
+
+                    on_cell_phone1_change () {
+                        this.form_data.cell_phone1 =  this.form_data.cell_phone;
+                    },
+
+                    
                 }, //methods end
             });
         </script>

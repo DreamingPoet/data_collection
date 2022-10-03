@@ -55,11 +55,11 @@
                 </div>
                 <div class="form-group">
                     <label for="applyer">1.排水户名称</label>
-                    <input type="text" class="form-control" v-model="form_data.applyer" id="applyer" />
+                    <input type="text" class="form-control" @change="on_applyer_change()" v-model="form_data.applyer" id="applyer" />
                 </div>
 
                 <div class="form-group">
-                    <label for="applyer_addr">1.1排水户地址</label>
+                    <label for="applyer_addr">1.1详细地址</label>
                     <input type="text" class="form-control" v-model="form_data.applyer_addr" id="applyer_addr" />
                 </div>
 
@@ -67,18 +67,42 @@
                     <label for="project">2.排水项目名称</label>
                     <input type="text" class="form-control" v-model="form_data.project" id="project" />
                 </div>
+
+                <div class="form-group">
+                    <label for="applyerd">2.1.申请单位</label>
+                    <input type="text" class="form-control" v-model="form_data.applyerd" id="applyerd" />
+                </div>
+
                 <div class="form-group">
                     <label for="date">3.填表日期</label>
                     <input type="text" class="form-control" v-model="form_data.date" id="date" />
                 </div>
+
                 <div class="form-group">
-                    <label for="post_legal_representative">4.邮编/法定代表人</label>
+                    <label for="post_legal_representative">4.1.邮编</label>
                     <input type="text" class="form-control" v-model="form_data.post_legal_representative" id="post_legal_representative" />
                 </div>
+
                 <div class="form-group">
-                    <label for="cell_phone">5.法定代表人手机</label>
+                    <label for="applyer1">4.3.联系人</label>
+                    <input type="text" class="form-control" v-model="form_data.applyer1" id="applyer1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="cell_phone1">5.联系人手机</label>
+                    <input type="text" class="form-control" @change="on_cell_phone1_change()" v-model="form_data.cell_phone1" id="cell_phone1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="applyerfaren9">4.1.法定代表人（最后页申请人承诺书默认）</label>
+                    <input type="text" class="form-control" v-model="form_data.applyerfaren9" id="applyerfaren9" />
+                </div>
+
+                <div class="form-group">
+                    <label for="cell_phone">4.2.法定代表人手机</label>
                     <input type="text" class="form-control" v-model="form_data.cell_phone" id="cell_phone" />
                 </div>
+
                 <div class="form-group">
                     <label for="project_addr">6.排水（建设）项目行政区和地址</label>
                     <input type="text" class="form-control" v-model="form_data.project_addr" id="project_addr" />
@@ -270,10 +294,15 @@
                             pics: [],
                             applyer: "",
                             applyer_addr: "",
+                            applyer1: "",
+                            applyerd: "",  
+                            applyerfaren3: "",                                                      
+                            applyerfaren9: "",
                             project: "",
                             date: self.getDate(),
                             post_legal_representative: "",
                             cell_phone: "",
+                            cell_phone1: "",
                             project_addr: "",
                             zongshui: "",
                             tap_water: "",
@@ -349,9 +378,14 @@
                         let formData = new FormData();
                         formData.append("applyer", this.form_data.applyer);
                         formData.append("applyer_addr", this.form_data.applyer_addr);
+                        formData.append("applyer1", this.form_data.applyer1);
+                        formData.append("applyerd", this.form_data.applyerd);   
+                        formData.append("applyerfaren3", this.form_data.applyerfaren3);                                            
+                        formData.append("applyerfaren9", this.form_data.applyerfaren9);
                         formData.append("project", this.form_data.project);
                         formData.append("date", this.form_data.date);
                         formData.append("post_legal_representative", this.form_data.post_legal_representative);
+                        formData.append("cell_phone1", this.form_data.cell_phone1);
                         formData.append("cell_phone", this.form_data.cell_phone);
                         formData.append("project_addr", this.form_data.project_addr);
                         formData.append("zongshui", this.form_data.zongshui);
@@ -481,6 +515,20 @@
                         d = isNaN(d) ? 0 : d;
                         this.form_data.overall_floorage = a + b + c + d;
                     },
+
+                    on_applyer_change () {
+                        this.form_data.applyerd =  this.form_data.applyer;
+                        this.form_data.applyer1 =  this.form_data.applyer;
+                        this.form_data.applyerfaren9 =  this.form_data.applyer;
+                    },
+
+                    on_cell_phone1_change () {
+                        this.form_data.cell_phone =  this.form_data.cell_phone1;
+
+                    },
+
+
+
                 }, //methods end
             });
         </script>
