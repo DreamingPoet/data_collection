@@ -102,6 +102,12 @@ def get_test_data(request):
             document.merge(
                 applyer=data.get("applyer"),
                 applyer_addr=data.get("applyer_addr"),
+                applyer1=data.get("applyer1"),
+                applyerfaren=data.get("applyerfaren"),
+                applyerfaren3=data.get("applyerfaren3"),
+                applyerfaren9=data.get("applyerfaren9"),
+                applyerd=data.get("applyerd"),
+                 cell_phone1=data.get("cell_phone1"),
                 project=data.get("project"),
                 date=data.get("date"),
                 post_legal_representative=data.get(
@@ -211,8 +217,8 @@ def get_test_data(request):
                 cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 run = cell.paragraphs[0].add_run()
                 picture = run.add_picture(fl)
-                picture.height = Cm(9)
-                picture.width = Cm(16)
+                picture.height = Cm(11)
+                picture.width = Cm(14.66)
 
                 cell = pic_table.cell(index * 2 + 1, 0)
                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER

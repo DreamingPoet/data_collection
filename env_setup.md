@@ -14,9 +14,13 @@ pip install python-docx docx-mailmerge -i https://pypi.tuna.tsinghua.edu.cn/simp
 
 pip install pillow -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-查询端口使用情况
+查询端口使用情况 查看pid
 lsof -i:8000
 
+关闭占用端口的程序
+kill pid
+
+启动
 python3 manage.py runserver 0.0.0.0:8000
 
 
