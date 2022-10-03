@@ -1,1 +1,2 @@
 *.pyc
+/db_server/merge_file/temp/
